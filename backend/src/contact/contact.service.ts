@@ -15,6 +15,14 @@ export class ContactService {
     private readonly emailService: EmailService,
   ) {}
 
+  /**
+   * Saves a contact form submission to the database, then sends a confirmation
+   * email to the submitter and a notification email to the admin team.
+   * Both emails are sent non-blocking (fire-and-forget) so failures don't surface to the user.
+   * @param dto - Contact form payload (name, email, subject, message)
+   * @param ipAddress - Optional IP address of the submitter for rate-limiting logs
+   * @returns Success message
+   */
   async submit(
     dto: SubmitContactDto,
     ipAddress?: string | null,
