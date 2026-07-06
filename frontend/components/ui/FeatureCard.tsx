@@ -8,6 +8,10 @@ interface FeatureCardProps {
   className?: string;
 }
 
+/**
+ * FeatureCard — renders a feature highlight card with an icon, title, and description.
+ * Used in the landing page FeaturesSection to showcase platform capabilities.
+ */
 const FeatureCard: React.FC<FeatureCardProps> = ({
   title,
   description,
