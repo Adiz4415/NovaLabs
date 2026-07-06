@@ -29,6 +29,10 @@ import { UserRole } from '../users/enums/userRoles.enum';
 export class InvoicesController {
   constructor(private readonly invoicesService: InvoicesService) {}
 
+  /**
+   * Lists all invoices accessible to the requesting user.
+   * Regular users see only their own; admin/staff see all.
+   */
   @Get()
   @ApiOperation({ summary: 'List invoices (users see own; admins see all)' })
   async findAll(
