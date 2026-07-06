@@ -9,6 +9,13 @@ type LoginBody = {
   rememberMe: boolean;
 };
 
+/**
+ * Hook that encapsulates the login flow for the NovaLabs frontend.
+ * Calls the auth store's login action, shows a toast on success/error,
+ * and redirects the user to the intended page (or /dashboard by default).
+ *
+ * @returns An object with `login` handler and `loading` state
+ */
 export function useLogin() {
   const router = useRouter();
   const searchParams = useSearchParams();
