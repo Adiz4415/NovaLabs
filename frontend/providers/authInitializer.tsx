@@ -6,6 +6,11 @@ interface AuthInitializerProviderProps {
   children: ReactNode;
 }
 
+/**
+ * Provider that initializes authentication state on app mount.
+ * Calls useAuthInit to restore the user session from localStorage/cookies.
+ * Must be placed inside ReactQueryProvider in the provider tree.
+ */
 export const AuthInitializerProvider = ({
   children,
 }: AuthInitializerProviderProps) => {
