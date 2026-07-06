@@ -23,10 +23,10 @@ interface BuildMetadataInput {
  */
 export function createSEODefaults() {
   return {
-    title: "ManageHub",
+    title: "NovaLabs",
     description: "Smart Hub & Workspace Management System",
     keywords: ["workspace", "management", "productivity", "hub", "organization", "collaboration", "efficiency"],
-    siteName: "ManageHub",
+    siteName: "NovaLabs",
     locale: "en_US",
     type: "website" as const,
   };
