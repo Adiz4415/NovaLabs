@@ -18,6 +18,17 @@ interface AuthRedirectReturn {
   canAccess: boolean;
 }
 
+/**
+ * Hook that enforces route-level authentication and role-based access control.
+ * Automatically redirects unauthenticated users to the login page and
+ * users without the required role to the dashboard.
+ *
+ * @param options.requireAuth - Whether the route requires authentication (default: false)
+ * @param options.requiredRole - Optional role required to access the route
+ * @param options.redirectTo - Where to redirect unauthenticated users (default: '/auth/login')
+ * @param options.redirectIfAuthenticated - Redirect authenticated users away (e.g. from /login)
+ * @returns Auth state including isLoading, isAuthenticated, user, and canAccess
+ */
 export const useAuthRedirect = (options: AuthRedirectOptions = {}): AuthRedirectReturn => {
   const {
     requireAuth = false,
