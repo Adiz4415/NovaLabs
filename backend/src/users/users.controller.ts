@@ -35,6 +35,10 @@ export class UsersController {
 
   constructor(private readonly usersService: UsersService) {}
 
+  /**
+   * Uploads a profile picture for the specified user.
+   * Only the account owner or an admin may update the picture.
+   */
   @Post(':id/profile-picture')
   @ApiOperation({ summary: 'Upload user profile picture' })
   @ApiConsumes('multipart/form-data')
