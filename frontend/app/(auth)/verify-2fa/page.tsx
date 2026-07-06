@@ -158,7 +158,7 @@ function Verify2FAForm() {
         </div>
 
         <p className="text-center text-xs text-gray-400">
-          &copy; 2026 ManageHub. All rights reserved.
+          &copy; 2026 NovaLabs. All rights reserved.
         </p>
       </div>
     </div>
