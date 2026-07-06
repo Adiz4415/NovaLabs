@@ -31,6 +31,10 @@ import { Disable2faDto } from './dto/disable-2fa.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  /**
+   * Registers a new member account.
+   * Sends an OTP verification email after successful registration.
+   */
   @Public()
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
