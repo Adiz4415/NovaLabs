@@ -23,6 +23,10 @@ import { UpdateMemberStatusDto } from './dto/update-member-status.dto';
 export class MembersController {
   constructor(private readonly usersService: UsersService) {}
 
+  /**
+   * Returns aggregated member statistics such as total, active, and suspended counts.
+   * Accessible by Admin, Super Admin, and Staff roles only.
+   */
   @Get('stats')
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.STAFF)
