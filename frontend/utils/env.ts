@@ -1,3 +1,12 @@
+/**
+ * Reads an environment variable by key.
+ * In development, throws if a required variable is missing.
+ * In production, logs a warning instead to avoid crashing the build.
+ *
+ * @param key - The environment variable name (e.g. 'NEXT_PUBLIC_API_URL')
+ * @param required - Whether the variable is required (defaults to true)
+ * @returns The env variable value, or an empty string if absent and not required
+ */
 function getEnvVar(key: string, required: boolean = true): string {
   const value = process.env[key];
 
