@@ -34,6 +34,10 @@ export class WorkspaceTrackingController {
     private readonly workspaceTrackingService: WorkspaceTrackingService,
   ) {}
 
+  /**
+   * Records a check-in for the authenticated user.
+   * Creates a workspace log entry with an open check-in timestamp.
+   */
   @Post('check-in')
   @Roles(UserRole.USER, UserRole.STAFF, UserRole.ADMIN, UserRole.SUPER_ADMIN)
   @ApiOperation({ summary: 'Check into a workspace' })
