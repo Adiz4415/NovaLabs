@@ -42,6 +42,13 @@ export class AuthService {
     private readonly manageTotpProvider: ManageTotpProvider,
   ) {}
 
+  /**
+   * Registers a new user account, hashes their password, generates a verification OTP,
+   * sends a verification email, and returns an access token.
+   * @param createUserDto - Registration payload (email, password, name)
+   * @returns The created user object and an access token
+   * @throws ConflictException if the email is already registered
+   */
   async createUser(createUserDto: CreateUserDto) {
     const existingUser = await this.userRepository.findOne({
       where: { email: createUserDto.email },
