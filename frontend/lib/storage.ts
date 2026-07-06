@@ -3,6 +3,12 @@ import { User } from "./types/user";
 const AUTH_TOKEN_KEY = "authToken";
 const AUTH_USER_KEY = "authUser";
 
+/**
+ * Client-side storage utilities for persisting auth state.
+ * Stores the access token in both localStorage (for JS access) and
+ * a cookie (for Next.js middleware access on the server side).
+ * All methods are SSR-safe and no-op when window is undefined.
+ */
 export const storage = {
   getToken(): string | null {
     if (typeof window === "undefined") return null;
