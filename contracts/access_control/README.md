@@ -1,6 +1,6 @@
-# Access Control System for ManageHub
+# Access Control System for NovaLabs
 
-A comprehensive Role-Based Access Control (RBAC) system for the ManageHub project, built on Soroban smart contracts.
+A comprehensive Role-Based Access Control (RBAC) system for the NovaLabs project, built on Soroban smart contracts.
 
 ## Overview
 
