@@ -25,22 +25,46 @@ export class BookingsService {
     private readonly pricingService: PricingService,
   ) {}
 
+  /**
+   * Creates a new booking for an authenticated user.
+   * @param dto - Booking creation payload
+   * @param userId - ID of the authenticated user making the booking
+   */
   create(dto: CreateBookingDto, userId: string) {
     return this.createBookingProvider.create(dto, userId);
   }
 
+  /**
+   * Creates a public day-pass booking without requiring authentication.
+   * @param dto - Public day-pass booking payload
+   */
   publicDayPass(dto: CreatePublicBookingDto) {
     return this.createPublicDayPassProvider.create(dto);
   }
 
+  /**
+   * Confirms a pending booking. Restricted to Admin/Staff.
+   * @param bookingId - UUID of the booking to confirm
+   */
   confirm(bookingId: string): Promise<Booking> {
     return this.confirmBookingProvider.confirm(bookingId);
   }
 
+  /**
+   * Cancels an existing booking.
+   * Regular users can only cancel their own bookings; admins can cancel any.
+   * @param bookingId - UUID of the booking to cancel
+   * @param userId - ID of the requesting user
+   * @param userRole - Role of the requesting user
+   */
   cancel(bookingId: string, userId: string, userRole: UserRole) {
     return this.cancelBookingProvider.cancel(bookingId, userId, userRole);
   }
 
+  /**
+   * Marks a booking as completed. Restricted to Admin/Staff.
+   * @param bookingId - UUID of the booking to complete
+   */
   complete(bookingId: string) {
     return this.completeBookingProvider.complete(bookingId);
   }
