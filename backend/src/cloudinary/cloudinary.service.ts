@@ -10,6 +10,13 @@ import { ConfigService } from '@nestjs/config';
 export class CloudinaryService {
   constructor(private configService: ConfigService) {}
 
+  /**
+   * Uploads an image file to Cloudinary with automatic format optimization.
+   * Images are resized to a maximum of 500×500px and quality is set to auto.
+   * @param file - The multer file object containing the image buffer
+   * @param folder - Optional Cloudinary folder path (defaults to env or 'profile-pictures')
+   * @returns Cloudinary upload response with secure_url and public_id
+   */
   async uploadImage(
     file: Express.Multer.File,
     folder?: string,
