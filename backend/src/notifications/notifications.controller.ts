@@ -25,6 +25,9 @@ import { UserRole } from '../users/enums/userRoles.enum';
 export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
+  /**
+   * Retrieves a paginated list of notifications for the authenticated user.
+   */
   @Get()
   @ApiOperation({ summary: 'Get my notifications' })
   async findAll(
