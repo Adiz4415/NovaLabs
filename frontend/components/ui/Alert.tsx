@@ -6,6 +6,10 @@ interface AlertProps {
   children?: React.ReactNode;
 }
 
+/**
+ * Alert component — displays a styled info/notice box with an optional icon, title, and body.
+ * Used across auth flows and forms to surface tips, warnings, and notices.
+ */
 const Alert = ({ icon, title, children }: AlertProps) => {
   return (
     <div className='bg-[#eff6ff] text-primary text-start border-1 font-medium border-[#cee3fe] border-sm p-2 md:p-4 rounded-lg flex gap-3'>
