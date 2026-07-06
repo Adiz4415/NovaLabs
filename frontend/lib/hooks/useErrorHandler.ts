@@ -7,6 +7,13 @@ interface ErrorHandlerReturn {
   handleError: (error: any) => void;
 }
 
+/**
+ * Hook that provides centralised HTTP error handling for the NovaLabs frontend.
+ * Automatically logs out the user on 401 Unauthorized responses.
+ * Logs warnings for 403/404 and errors for 500 responses.
+ *
+ * @returns An object with a `handleError` callback to pass to catch blocks
+ */
 export const useErrorHandler = (): ErrorHandlerReturn => {
   const { logout } = useAuthActions();
 
