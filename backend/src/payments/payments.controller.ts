@@ -34,6 +34,10 @@ import { PaymentQuery } from './providers/find-payments.provider';
 export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
+  /**
+   * Initializes a Paystack payment for the given booking.
+   * Returns the authorization URL to redirect the user to.
+   */
   @Post('initialize')
   @ApiOperation({ summary: 'Initialize a Paystack payment for a booking' })
   async initialize(
