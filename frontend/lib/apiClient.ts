@@ -1,6 +1,17 @@
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:6001/api";
 
+/**
+ * Lightweight HTTP client for the NovaLabs frontend.
+ * Wraps the Fetch API with automatic Bearer token injection,
+ * JSON serialization/deserialization, and uniform error handling.
+ *
+ * Usage:
+ * ```ts
+ * apiClient.setToken(accessToken);
+ * const data = await apiClient.get<User>('/users/me');
+ * ```
+ */
 class ApiClient {
   private baseURL: string;
   private token: string | null = null;
