@@ -43,6 +43,9 @@ export class BookingsController {
     return { message: 'Day-pass booking initiated', data: result };
   }
 
+  /**
+   * Creates a new booking for the authenticated user.
+   */
   @Post()
   @ApiOperation({ summary: 'Create a booking' })
   async create(
