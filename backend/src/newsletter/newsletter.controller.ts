@@ -26,6 +26,10 @@ type AnyRequest = { ip?: string; headers?: Record<string, unknown> };
 export class NewsletterController {
   constructor(private readonly service: NewsletterService) {}
 
+  /**
+   * Subscribes an email to the NovaLabs newsletter.
+   * Rate-limited to 5 requests per minute. Public endpoint.
+   */
   @Public()
   @Throttle({ newsletter: { ttl: seconds(60), limit: 5 } })
   @Post('subscribe')
