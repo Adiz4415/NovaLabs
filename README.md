@@ -1,8 +1,8 @@
-# **ManageHub**
+# **NovaLabs**
 
 **A Comprehensive Coworking and Workspace Management System**
 
-ManageHub is a full-stack platform designed to streamline **coworking and workspace management** for hubs, coworking spaces and workspaces. It includes features like **biometric clock-in/clock-out functionality**, enhancing operational efficiency, security, and administrative oversight. The backend is structured for real-world usage and the frontend is designed for intuitive interaction.
+NovaLabs is a full-stack platform designed to streamline **coworking and workspace management** for hubs, coworking spaces and workspaces. It includes features like **biometric clock-in/clock-out functionality**, enhancing operational efficiency, security, and administrative oversight. The backend is structured for real-world usage and the frontend is designed for intuitive interaction.
 
 ---
 
@@ -27,9 +27,9 @@ ManageHub is a full-stack platform designed to streamline **coworking and worksp
 
 ## About
 
-ManageHub is structured to handle everyday operational needs of tech hubs, from managing members to tracking workspace usage and attendance using biometric authentication. The platform is modular, scalable, and designed with real-world enterprise needs in mind.
+NovaLabs is structured to handle everyday operational needs of tech hubs, from managing members to tracking workspace usage and attendance using biometric authentication. The platform is modular, scalable, and designed with real-world enterprise needs in mind.
 
-Live Demo: [https://managehub.vercel.app/](https://managehub.vercel.app/)
+Live Demo: [https://novalabs.vercel.app/](https://novalabs.vercel.app/)
 
 ---
 
@@ -46,7 +46,7 @@ Live Demo: [https://managehub.vercel.app/](https://managehub.vercel.app/)
 
 ## Tech Stack
 
-ManageHub uses a modern full-stack technology stack:
+NovaLabs uses a modern full-stack technology stack:
 
 | Layer                  | Technology                                     |     |
 | ---------------------- | ---------------------------------------------- | --- |
@@ -80,8 +80,8 @@ Make sure you have the following installed:
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/DistinctCodes/ManageHub.git
-cd ManageHub
+git clone https://github.com/NovaCoreLabs1/NovaLabs.git
+cd NovaLabs
 ```
 
 2. **Install dependencies**
@@ -137,7 +137,7 @@ Open `http://localhost:3000` in your browser.
 ## Project Structure
 
 ```plaintext
-ManageHub/
+NovaLabs/
 ├── backend/            # NestJS backend API
 ├── frontend/           # Next.js client application
 ├── contracts/          # Rust & Stellar contract modules (wasm, etc.)
