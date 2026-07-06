@@ -1,6 +1,11 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
+/**
+ * LayoutContainer — a responsive max-width wrapper for page content.
+ * Applies max-w-7xl with responsive horizontal padding.
+ * Use as the outermost layout wrapper inside page components.
+ */
 const LayoutContainer = ({
   children,
   className,
