@@ -22,6 +22,10 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 export class DashboardController {
   constructor(private readonly dashboardService: DashboardService) {}
 
+  /**
+   * Returns general workspace stats visible to any authenticated user.
+   * Includes total members, verified members, active workspaces, and desk occupancy.
+   */
   @Get('stats')
   @HttpCode(HttpStatus.OK)
   async getStats(@CurrentUser() user: User) {
