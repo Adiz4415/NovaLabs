@@ -169,7 +169,7 @@ export class EmailService {
     },
   ): Promise<boolean> {
     const html = this.compileTemplate('booking-created', { fullName, ...data });
-    return this.send(email, 'Booking Created — ManageHub', html);
+    return this.send(email, 'Booking Created — NovaLabs', html);
   }
 
   async sendPaymentSuccessEmail(
@@ -184,7 +184,7 @@ export class EmailService {
     },
   ): Promise<boolean> {
     const html = this.compileTemplate('payment-success', { fullName, ...data });
-    return this.send(email, 'Payment Successful — ManageHub', html);
+    return this.send(email, 'Payment Successful — NovaLabs', html);
   }
 
   async sendPaymentFailedEmail(
@@ -196,7 +196,7 @@ export class EmailService {
     },
   ): Promise<boolean> {
     const html = this.compileTemplate('payment-failed', { fullName, ...data });
-    return this.send(email, 'Payment Failed — ManageHub', html);
+    return this.send(email, 'Payment Failed — NovaLabs', html);
   }
 
   async sendBookingCancelledEmail(
@@ -214,7 +214,7 @@ export class EmailService {
       fullName,
       ...data,
     });
-    return this.send(email, 'Booking Cancelled — ManageHub', html);
+    return this.send(email, 'Booking Cancelled — NovaLabs', html);
   }
 
   async sendInvoiceReadyEmail(
@@ -228,7 +228,7 @@ export class EmailService {
     pdfBuffer: Buffer,
   ): Promise<boolean> {
     const html = this.compileTemplate('invoice-ready', { fullName, ...data });
-    return this.send(email, `Invoice ${data.invoiceNumber} — ManageHub`, html, [
+    return this.send(email, `Invoice ${data.invoiceNumber} — NovaLabs`, html, [
       {
         filename: `${data.invoiceNumber}.pdf`,
         content: pdfBuffer,
