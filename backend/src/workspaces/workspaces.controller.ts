@@ -34,6 +34,9 @@ import { GetCurrentUser } from '../auth/decorators/getCurrentUser.decorator';
 export class WorkspacesController {
   constructor(private readonly workspacesService: WorkspacesService) {}
 
+  /**
+   * Creates a new workspace listing. Only Admin and Super Admin can create workspaces.
+   */
   @Post()
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
