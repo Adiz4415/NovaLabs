@@ -10,6 +10,10 @@ type AnyRequest = { ip?: string; headers?: Record<string, unknown> };
 export class ContactController {
   constructor(private readonly contactService: ContactService) {}
 
+  /**
+   * Public endpoint to submit a contact form.
+   * Rate-limited to 5 requests per 60 seconds per IP.
+   */
   @Public()
   @Throttle({ contact: { ttl: seconds(60), limit: 5 } })
   @Post()
