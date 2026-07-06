@@ -1,5 +1,5 @@
 #![no_std]
-//! # ManageHub Contract
+//! # NovaLabs Contract
 //!
 //! ## Multisig Integration for Critical Operations
 //!
