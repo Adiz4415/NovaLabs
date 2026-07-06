@@ -1,6 +1,10 @@
 "use client"
 
-
+/**
+ * TimePill — renders a single countdown unit (hours, minutes, or seconds).
+ * Displays the value zero-padded to 2 digits with a label below.
+ * Used inside the CountDownTimer component.
+ */
 export function TimePill({ label, value }: { label: string; value: number }) {
     return (
       <div className="flex flex-col items-center">
