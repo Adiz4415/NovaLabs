@@ -3,7 +3,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Reset Password",
   description:
-    "Create a new password for your ManageHub account.",
+    "Create a new password for your NovaLabs account.",
   noindex: true,
 });
 
