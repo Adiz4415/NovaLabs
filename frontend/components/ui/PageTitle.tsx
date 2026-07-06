@@ -8,6 +8,10 @@ interface PageTitleProps {
   className?: string;
 }
 
+/**
+ * PageTitle — renders a standardised page heading with an optional subtitle.
+ * Used at the top of dashboard pages to provide consistent visual hierarchy.
+ */
 export function PageTitle({ title, subtitle, className }: PageTitleProps) {
   return (
     <div className={cn('mb-6', className)}>
