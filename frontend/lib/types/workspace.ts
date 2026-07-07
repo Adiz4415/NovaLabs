@@ -1,3 +1,4 @@
+/** Union type representing available workspace categories in the platform. */
 export type WorkspaceType =
   | "PRIVATE_OFFICE"
   | "COWORKING"
@@ -5,6 +6,7 @@ export type WorkspaceType =
   | "HOT_DESK"
   | "DEDICATED_DESK";
 
+/** Represents a workspace resource with seat and pricing information. */
 export interface Workspace {
   id: string;
   name: string;
@@ -20,6 +22,7 @@ export interface Workspace {
   updatedAt: string;
 }
 
+/** Availability check result for a workspace given a requested seat count. */
 export interface WorkspaceAvailability {
   workspaceId: string;
   requestedSeats: number;
@@ -29,6 +32,7 @@ export interface WorkspaceAvailability {
   message: string;
 }
 
+/** Query parameters for filtering and paginating workspace listings. */
 export interface WorkspaceQuery {
   page?: number;
   limit?: number;
