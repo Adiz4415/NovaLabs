@@ -12,6 +12,13 @@ import { RefreshToken } from '../../auth/entities/refreshToken.entity';
 import { UserRole } from '../enums/userRoles.enum';
 import { MembershipStatus } from '../enums/membership-status.enum';
 
+/**
+ * TypeORM entity representing a registered platform user.
+ *
+ * Stores identity, authentication (with sensitive fields excluded from
+ * serialization), authorization, membership state, two-factor auth details,
+ * and soft-delete bookkeeping.
+ */
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
