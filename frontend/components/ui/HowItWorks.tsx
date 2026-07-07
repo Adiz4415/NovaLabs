@@ -1,12 +1,5 @@
-/** Step entry displayed in the {@link HowItWorks} timeline. */
-type Step = {
-  number: string;
-  title: string;
-  desc: string;
-};
-
-/** Static list of onboarding steps shown on the marketing landing page. */
-const steps: Step[] = [
+/** Onboarding step entries rendered in the {@link HowItWorks} timeline. */
+const steps = [
   {
     number: "01",
     title: "Set up your space",
