@@ -3,6 +3,9 @@ import { Type } from 'class-transformer';
 import { MembershipStatus } from '../enums/membership-status.enum';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
+/**
+ * Query parameters for listing and paginating platform members.
+ */
 export class MemberQueryDto {
   @ApiPropertyOptional({ default: 1 })
   @IsOptional()
