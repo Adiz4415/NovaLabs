@@ -13,6 +13,11 @@ import { Booking } from '../../bookings/entities/booking.entity';
 import { PaymentProvider } from '../enums/payment-provider.enum';
 import { PaymentStatus } from '../enums/payment-status.enum';
 
+/**
+ * TypeORM entity representing a payment record in the system.
+ * Stores payment details including provider info, amount, status, and timestamps.
+ * Indexed on bookingId, userId, and providerReference for fast lookups.
+ */
 @Entity('payments')
 @Index(['bookingId'])
 @Index(['userId'])
