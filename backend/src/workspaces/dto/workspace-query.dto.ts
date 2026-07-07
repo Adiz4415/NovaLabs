@@ -3,6 +3,9 @@ import { Type } from 'class-transformer';
 import { WorkspaceType } from '../enums/workspace-type.enum';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
+/**
+ * Query parameters for listing, filtering, and paginating workspaces.
+ */
 export class WorkspaceQueryDto {
   @ApiPropertyOptional({ default: 1 })
   @IsOptional()
