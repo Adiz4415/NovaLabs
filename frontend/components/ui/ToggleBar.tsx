@@ -2,17 +2,26 @@
 
 import { cn } from '@/utils/cn';
 
+/** Props for the {@link ToggleBar} component. */
 interface ToggleBarProps {
+  /** Toggleable options rendered as tabs in the bar. */
   options: Array<{
     id: string;
     label: string;
     icon?: React.ReactNode;
   }>;
+  /** Currently selected option id. */
   value: string;
+  /** Invoked with the selected option id when a tab is clicked. */
   onChange: (value: string) => void;
+  /** Optional extra classes merged onto the tablist container. */
   className?: string;
 }
 
+/**
+ * Pill-style tab bar used to switch between mutually exclusive options,
+ * commonly between alternative auth methods such as password and OTP.
+ */
 export function ToggleBar({ options, value, onChange, className }: ToggleBarProps) {
   return (
     <div
