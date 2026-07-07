@@ -8,6 +8,12 @@ import {
 } from 'typeorm';
 import { WorkspaceType } from '../enums/workspace-type.enum';
 
+/**
+ * TypeORM entity representing a bookable workspace resource.
+ *
+ * Stores the workspace type, total and currently-available seat counts,
+ * pricing per hour (in kobo), descriptive metadata, and lifecycle flags.
+ */
 @Entity('workspaces')
 export class Workspace {
   @PrimaryGeneratedColumn('uuid')
