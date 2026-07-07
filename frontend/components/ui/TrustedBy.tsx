@@ -1,5 +1,10 @@
+/** Brand names shown in the marketing landing page "Trusted by" section. */
 const companies = ["Acme Corp", "Lattice", "Runway", "Vercel", "Linear", "Notion"];
 
+/**
+ * Marketing landing page section that displays a row of fictional brand names
+ * to convey social proof.
+ */
 export default function TrustedBy() {
   return (
     <section className="px-6 py-16 bg-[#faf9f7]">
