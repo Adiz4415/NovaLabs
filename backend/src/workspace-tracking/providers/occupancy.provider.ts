@@ -31,6 +31,11 @@ export class OccupancyProvider {
     private readonly workspacesRepository: Repository<Workspace>,
   ) {}
 
+  /**
+   * Returns live occupancy data for all active workspaces, or a single one.
+   * @param workspaceId - Optional UUID to filter to a specific workspace
+   * @returns Array of occupancy records with seat totals and utilization percentages
+   */
   async getCurrentOccupancy(
     workspaceId?: string,
   ): Promise<WorkspaceOccupancy[]> {
@@ -64,6 +69,11 @@ export class OccupancyProvider {
     return results;
   }
 
+  /**
+   * Aggregates workspace utilization statistics over a date range.
+   * @param query - Filter options including workspaceId, from date, and to date
+   * @returns Array of utilization stats per workspace with visit counts, unique users, and average duration
+   */
   async getUtilizationStats(
     query: OccupancyQueryDto,
   ): Promise<UtilizationStats[]> {
@@ -121,6 +131,12 @@ export class OccupancyProvider {
     }));
   }
 
+  /**
+   * Fetches the most recent workspace check-in logs ordered by check-in time descending.
+   * @param workspaceId - Optional UUID to filter logs to a specific workspace
+   * @param limit - Maximum number of log entries to return (default 50)
+   * @returns Array of WorkspaceLog entries
+   */
   async getRecentLogs(
     workspaceId?: string,
     limit = 50,
