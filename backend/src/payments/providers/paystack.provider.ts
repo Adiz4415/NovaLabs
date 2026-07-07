@@ -21,6 +21,15 @@ export class PaystackProvider {
     };
   }
 
+  /**
+   * Initializes a Paystack payment transaction.
+   * @param email - Customer email address
+   * @param amountKobo - Amount to charge in kobo (smallest currency unit)
+   * @param reference - Unique payment reference
+   * @param callbackUrl - URL Paystack redirects to after payment
+   * @param metadata - Optional additional data to attach to the transaction
+   * @returns Authorization URL, access code, and reference from Paystack
+   */
   async initializeTransaction(
     email: string,
     amountKobo: number,
@@ -46,6 +55,11 @@ export class PaystackProvider {
     return data.data;
   }
 
+  /**
+   * Verifies a Paystack transaction by its reference.
+   * @param reference - The unique transaction reference to verify
+   * @returns Raw transaction data returned by Paystack
+   */
   async verifyTransaction(reference: string): Promise<Record<string, unknown>> {
     const { data } = await axios.get(
       `${PAYSTACK_BASE}/transaction/verify/${reference}`,
@@ -54,6 +68,12 @@ export class PaystackProvider {
     return data.data as Record<string, unknown>;
   }
 
+  /**
+   * Initiates a refund for a completed Paystack transaction.
+   * @param transactionReference - The reference of the transaction to refund
+   * @param amountKobo - Optional partial refund amount in kobo; full refund if omitted
+   * @returns Raw refund data returned by Paystack
+   */
   async initiateRefund(
     transactionReference: string,
     amountKobo?: number,
@@ -69,6 +89,12 @@ export class PaystackProvider {
     return data.data as Record<string, unknown>;
   }
 
+  /**
+   * Validates the HMAC-SHA512 signature on an incoming Paystack webhook request.
+   * @param rawBody - Raw request body buffer
+   * @param signature - Value of the x-paystack-signature header
+   * @returns True if the signature matches, false otherwise
+   */
   verifyWebhookSignature(rawBody: Buffer, signature: string): boolean {
     const hash = crypto
       .createHmac('sha512', this.secretKey)
