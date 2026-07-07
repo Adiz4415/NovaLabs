@@ -1,10 +1,21 @@
 "use client";
-import { Building2, X, Menu, Clock } from "lucide-react";
+import { Clock } from "lucide-react";
 import { useMemo, useState, useEffect } from "react";
 import { TimePill } from "./TimePill";
 
-/* ---------------- Countdown Timer ---------------- */
-export function CountdownTimer({ targetDate }: { targetDate: string | Date }) {
+/** Props for the {@link CountdownTimer} component. */
+interface CountdownTimerProps {
+  /** Target date shown as days/hours/minutes/seconds remaining. */
+  targetDate: string | Date;
+}
+
+/**
+ * Live countdown to a target date, rendered as four {@link TimePill} segments.
+ *
+ * Uses an initial render from the target date to avoid server/client hydration
+ * mismatches, then ticks every second on the client.
+ */
+export function CountdownTimer({ targetDate }: CountdownTimerProps) {
   const target = useMemo(() => new Date(targetDate), [targetDate]);
 
   // Initialize with target date so server and client match initially
