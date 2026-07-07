@@ -1,5 +1,7 @@
+/** Payment lifecycle status of an invoice. */
 export type InvoiceStatus = "PENDING" | "PAID" | "CANCELLED";
 
+/** Single billable line on an invoice. */
 export interface LineItem {
   description: string;
   startDate?: string;
@@ -9,6 +11,7 @@ export interface LineItem {
   amountNaira: number;
 }
 
+/** Invoice issued to a user for a booking payment. */
 export interface Invoice {
   id: string;
   invoiceNumber: string;
