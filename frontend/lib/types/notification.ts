@@ -1,3 +1,4 @@
+/** Categories of notifications dispatched to platform users. */
 export type NotificationType =
   | "PAYMENT_SUCCESS"
   | "PAYMENT_FAILED"
@@ -5,6 +6,7 @@ export type NotificationType =
   | "BOOKING_CANCELLED"
   | "GENERAL";
 
+/** In-app notification record displayed to a user. */
 export interface Notification {
   id: string;
   userId: string;
