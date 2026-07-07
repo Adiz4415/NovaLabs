@@ -11,6 +11,9 @@ import {
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { UserRole } from '../enums/userRoles.enum'; // import your enum
 
+/**
+ * Payload required to create a new user account.
+ */
 export class CreateUserDto {
   @ApiProperty({ minLength: 1, maxLength: 30 })
   @IsNotEmpty()
