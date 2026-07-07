@@ -5,6 +5,12 @@ import * as LabelPrimitive from "@radix-ui/react-label"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Styled form `<label>` element built on the Radix `Label` primitive.
+ *
+ * Uses `data-slot="label"` to make the element a target for styling from
+ * `peer-disabled` and `group-data` selectors higher in the tree.
+ */
 function Label({
   className,
   ...props
