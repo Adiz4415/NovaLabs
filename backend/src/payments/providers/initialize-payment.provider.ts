@@ -27,6 +27,15 @@ export class InitializePaymentProvider {
     private readonly configService: ConfigService,
   ) {}
 
+  /**
+   * Initializes a new payment for a pending booking via Paystack.
+   * Reuses any existing pending payment record to avoid duplicates.
+   * @param bookingId - UUID of the booking to pay for
+   * @param userId - UUID of the user making the payment
+   * @returns Payment ID, Paystack authorization URL, and transaction reference
+   * @throws NotFoundException if the booking does not exist
+   * @throws BadRequestException if the booking is not in PENDING status
+   */
   async initialize(
     bookingId: string,
     userId: string,
