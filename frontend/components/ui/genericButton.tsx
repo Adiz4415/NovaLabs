@@ -2,12 +2,20 @@
 
 import { ButtonHTMLAttributes } from 'react';
 
+/** Props for the {@link Button} component (default export of this file). */
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Visual tone of the button. */
   variant?: 'primary' | 'secondary';
+  /** Size preset that controls height and padding. */
   size?: 'sm' | 'md' | 'lg';
+  /** Disabled flag; also accepts native `disabled` from HTML attributes. */
   disabled?: boolean;
 }
 
+/**
+ * Lightweight themed button that maps `variant` and `size` props to
+ * Tailwind utility classes.
+ */
 const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
