@@ -1,6 +1,10 @@
+/** Current status of a payment transaction. */
 export type PaymentStatus = "pending" | "success" | "failed" | "refunded";
+
+/** Payment service providers supported by the platform. */
 export type PaymentProvider = "paystack" | "soroban";
 
+/** Payment transaction tied to a booking and a user. */
 export interface Payment {
   id: string;
   bookingId: string;
@@ -25,6 +29,7 @@ export interface Payment {
   };
 }
 
+/** Response returned by the payments API after initializing a transaction. */
 export interface InitializePaymentResponse {
   authorizationUrl: string;
   accessCode: string;
