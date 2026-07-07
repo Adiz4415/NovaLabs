@@ -3,11 +3,19 @@
 import { InputHTMLAttributes, forwardRef } from 'react';
 import { cn } from '@/utils/cn';
 
+/** Props for the themed {@link Input} component. */
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  /** Optional validation error message rendered below the field. */
   error?: string;
+  /** Optional icon rendered inside the left of the field. */
   icon?: React.ReactNode;
 }
 
+/**
+ * Themed text input that supports an optional leading icon and an error state.
+ *
+ * The forwarded ref is attached to the underlying `<input>` element.
+ */
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, error, icon, ...props }, ref) => {
     return (
