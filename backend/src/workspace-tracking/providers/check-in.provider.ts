@@ -18,6 +18,15 @@ export class CheckInProvider {
     private readonly workspacesRepository: Repository<Workspace>,
   ) {}
 
+  /**
+   * Records a workspace check-in for the given user.
+   * Validates the workspace is active and ensures no duplicate active check-in exists.
+   * @param dto - Check-in data including workspaceId, optional bookingId and notes
+   * @param userId - UUID of the user checking in
+   * @returns The newly created WorkspaceLog entry
+   * @throws NotFoundException if the workspace does not exist or is inactive
+   * @throws BadRequestException if the user already has an active check-in for this workspace
+   */
   async checkIn(dto: CheckInDto, userId: string): Promise<WorkspaceLog> {
     const workspace = await this.workspacesRepository.findOne({
       where: { id: dto.workspaceId, isActive: true },
@@ -46,6 +55,14 @@ export class CheckInProvider {
     return this.logsRepository.save(log);
   }
 
+  /**
+   * Records a checkout for an existing active workspace log entry.
+   * Calculates and stores the session duration in minutes.
+   * @param logId - UUID of the active workspace log to close
+   * @param userId - UUID of the user checking out (must match the log owner)
+   * @returns The updated WorkspaceLog entry with checkout time and duration
+   * @throws NotFoundException if no active log is found for the given id and user
+   */
   async checkOut(logId: string, userId: string): Promise<WorkspaceLog> {
     const log = await this.logsRepository.findOne({
       where: { id: logId, userId, checkedOutAt: IsNull() },
@@ -65,6 +82,12 @@ export class CheckInProvider {
     return this.logsRepository.save(log);
   }
 
+  /**
+   * Retrieves the current active (not yet checked-out) log for a user.
+   * @param userId - UUID of the user to query
+   * @param workspaceId - Optional workspace UUID to narrow the search
+   * @returns The active WorkspaceLog, or null if no active check-in exists
+   */
   async getActiveCheckIn(
     userId: string,
     workspaceId?: string,
