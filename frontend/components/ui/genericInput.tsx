@@ -2,11 +2,19 @@
 
 import React, { forwardRef, useId } from "react";
 
+/** Props for the {@link GenericInput} component. */
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  /** Optional label rendered above the input. */
   label?: string;
+  /** Optional validation message rendered below the input. */
   error?: string | null;
 }
 
+/**
+ * Accessible text input with built-in rendering for a `label` and validation
+ * `error` state. Falls back to an auto-generated id via `useId` when none
+ * is provided via `id` or `name`.
+ */
 const GenericInput = forwardRef<HTMLInputElement, InputProps>(
   ({ type = "text", placeholder, value, onChange, className = "", label, error, id, name, ...rest }, ref) => {
     const autoId = useId();
