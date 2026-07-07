@@ -23,6 +23,12 @@ export class EmailService {
     });
   }
 
+  /**
+   * Compiles a Handlebars email template with the given context.
+   * @param templateName - Name of the .hbs template file (without extension)
+   * @param context - Key-value pairs injected into the template
+   * @returns Rendered HTML string
+   */
   private compileTemplate(
     templateName: string,
     context: Record<string, any>,
@@ -37,6 +43,14 @@ export class EmailService {
     return template(context);
   }
 
+  /**
+   * Sends an email via the configured SMTP transporter.
+   * @param to - Recipient email address
+   * @param subject - Email subject line
+   * @param html - Rendered HTML body
+   * @param attachments - Optional list of file attachments
+   * @returns True if the email was sent successfully, false otherwise
+   */
   private async send(
     to: string,
     subject: string,
