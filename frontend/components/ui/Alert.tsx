@@ -1,8 +1,12 @@
 import React from 'react';
 
+/** Props for the {@link Alert} component. */
 interface AlertProps {
+  /** Optional icon shown at the start of the alert. */
   icon?: React.ReactNode;
+  /** Optional bold title shown above the body. */
   title?: string;
+  /** Body content, typically a short message. */
   children?: React.ReactNode;
 }
 
