@@ -1,4 +1,12 @@
-const steps = [
+/** Step entry displayed in the {@link HowItWorks} timeline. */
+type Step = {
+  number: string;
+  title: string;
+  desc: string;
+};
+
+/** Static list of onboarding steps shown on the marketing landing page. */
+const steps: Step[] = [
   {
     number: "01",
     title: "Set up your space",
@@ -16,6 +24,11 @@ const steps = [
   },
 ];
 
+/**
+ * Three-step onboarding explainer rendered on the marketing landing page.
+ *
+ * Renders a numbered step list with a connecting line on desktop viewports.
+ */
 export default function HowItWorks() {
   return (
     <section id="how-it-works" className="px-6 py-28 bg-white">
