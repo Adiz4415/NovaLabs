@@ -1,9 +1,11 @@
+/** Lifecycle status of a workspace booking. */
 export type BookingStatus =
   | "PENDING"
   | "CONFIRMED"
   | "CANCELLED"
   | "COMPLETED";
 
+/** Billing interval options available when creating a booking. */
 export type PlanType =
   | "HOURLY"
   | "DAILY"
@@ -12,6 +14,7 @@ export type PlanType =
   | "QUARTERLY"
   | "YEARLY";
 
+/** Represents a workspace reservation made by a user. */
 export interface Booking {
   id: string;
   userId: string;
@@ -33,6 +36,7 @@ export interface Booking {
   };
 }
 
+/** Payload required to create a new booking. */
 export interface CreateBookingDto {
   workspaceId: string;
   planType: PlanType;
@@ -42,6 +46,7 @@ export interface CreateBookingDto {
   notes?: string;
 }
 
+/** Pre-checkout price calculation returned for a prospective booking. */
 export interface PriceEstimate {
   totalAmount: number; // kobo
   totalAmountNaira: number;
