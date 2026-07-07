@@ -4,15 +4,21 @@ import { useEffect, useMemo, useState } from "react";
 import { apiClient } from "@/lib/apiClient";
 import Link from "next/link";
 
+/** Shape of the response returned from the newsletter confirm endpoint. */
 type ConfirmResponse = {
   success: boolean;
   message: string;
 };
 
+/** Props for the {@link NewsletterConfirm} component. */
 type Props = {
   token: string | null;
 };
 
+/**
+ * Renders a confirmation screen that calls the newsletter confirm endpoint
+ * with the provided token and shows the resulting success or error message.
+ */
 export function NewsletterConfirm({ token }: Props) {
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading"
