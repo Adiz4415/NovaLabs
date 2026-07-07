@@ -2,13 +2,24 @@
 
 import { cn } from '@/utils/cn';
 
+/** Props for the {@link Pagination} component. */
 interface PaginationProps {
+  /** Current active page (1-indexed). */
   currentPage: number;
+  /** Total number of pages available. */
   totalPages: number;
+  /** Invoked with the new page number when the user selects a page. */
   onPageChange: (page: number) => void;
+  /** Optional extra classes merged onto the root container. */
   className?: string;
 }
 
+/**
+ * Renders a numeric pagination control with previous/next buttons.
+ *
+ * Collapses intermediate pages into ellipses when the current page is far
+ * from the start or end, and renders `null` when there is only one page.
+ */
 const Pagination = ({ currentPage, totalPages, onPageChange, className }: PaginationProps) => {
   const canGoPrevious = currentPage > 1;
   const canGoNext = currentPage < totalPages;
