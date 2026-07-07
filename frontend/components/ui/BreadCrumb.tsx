@@ -2,15 +2,23 @@ import { ChevronRightIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
+/** Single entry rendered inside a {@link BreadCrumb} trail. */
 interface LinkItem {
   label: string;
   href?: string;
 }
 
+/** Props for the {@link BreadCrumb} component. */
 interface LinkList {
   links: LinkItem[];
 }
 
+/**
+ * Renders an accessible breadcrumb navigation trail from a list of links.
+ *
+ * The final segment is rendered as a non-link pill when {@link LinkItem.href}
+ * is omitted, marking it as the current location.
+ */
 const BreadCrumb = ({ links }: LinkList) => {
   return (
     <nav className='flex' aria-label='Breadcrumb'>
