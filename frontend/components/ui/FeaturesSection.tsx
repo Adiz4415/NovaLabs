@@ -1,14 +1,5 @@
-/** Feature item rendered inside the {@link FeaturesSection} bento grid. */
-type Feature = {
-  emoji: string;
-  title: string;
-  desc: string;
-  accent: string;
-  area: "a" | "b" | "d" | "e" | "c" | "f";
-};
-
-/** Static list of platform features shown in the marketing landing page. */
-const features: Feature[] = [
+/** Feature card rendered inside the marketing landing page bento grid. */
+const features = [
   {
     emoji: "👥",
     title: "Team management",
