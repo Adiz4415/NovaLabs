@@ -16,8 +16,10 @@ import {
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
 
+/** `react-hook-form` `FormProvider` re-exported as the {@link Form} root. */
 const Form = FormProvider
 
+/** Context value providing the field name to nested form item components. */
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
@@ -25,10 +27,15 @@ type FormFieldContextValue<
   name: TName
 }
 
+/** React context that carries the current field name for nested form parts. */
 const FormFieldContext = React.createContext<FormFieldContextValue>(
   {} as FormFieldContextValue
 )
 
+/**
+ * Wraps a `react-hook-form` `Controller` and exposes the field name via
+ * {@link FormFieldContext} so descendant components can read form state.
+ */
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
@@ -42,6 +49,10 @@ const FormField = <
   )
 }
 
+/**
+ * Hook that combines the current form field context, item context, and
+ * `react-hook-form` state into a single object for form components to consume.
+ */
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext)
   const itemContext = React.useContext(FormItemContext)
@@ -65,14 +76,20 @@ const useFormField = () => {
   }
 }
 
+/** Context value carrying the auto-generated id for a form item. */
 type FormItemContextValue = {
   id: string
 }
 
+/** React context shared between a {@link FormItem} and its descendants. */
 const FormItemContext = React.createContext<FormItemContextValue>(
   {} as FormItemContextValue
 )
 
+/**
+ * Container for a single form control plus its label, description, and error
+ * message; generates a stable id shared with descendants.
+ */
 function FormItem({ className, ...props }: React.ComponentProps<"div">) {
   const id = React.useId()
 
@@ -87,6 +104,10 @@ function FormItem({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
+/**
+ * Label element wired to the current {@link FormField} via `htmlFor` and
+ * accessibility attributes derived from {@link useFormField}.
+ */
 function FormLabel({
   className,
   ...props
@@ -104,6 +125,10 @@ function FormLabel({
   )
 }
 
+/**
+ * Slot that forwards form-field accessibility props (`id`, `aria-describedby`,
+ * `aria-invalid`) to the rendered control.
+ */
 function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
 
@@ -122,6 +147,9 @@ function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
   )
 }
 
+/**
+ * Inline helper text shown beneath a form control.
+ */
 function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
   const { formDescriptionId } = useFormField()
 
@@ -135,6 +163,10 @@ function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
   )
 }
 
+/**
+ * Validation message rendered below a form control; renders nothing when the
+ * field has no error and no children.
+ */
 function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
   const { error, formMessageId } = useFormField()
   const body = error ? String(error?.message ?? "") : props.children
