@@ -11,6 +11,11 @@ import { User } from '../../users/entities/user.entity';
 import { Workspace } from '../../workspaces/entities/workspace.entity';
 import { Booking } from '../../bookings/entities/booking.entity';
 
+/**
+ * TypeORM entity representing a workspace check-in/check-out log.
+ * Tracks user presence in workspaces, including session duration and optional booking linkage.
+ * Indexed on workspaceId+checkedInAt and userId+checkedInAt for efficient querying.
+ */
 @Entity('workspace_logs')
 @Index(['workspaceId', 'checkedInAt'])
 @Index(['userId', 'checkedInAt'])
