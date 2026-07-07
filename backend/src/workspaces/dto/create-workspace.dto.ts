@@ -10,6 +10,9 @@ import {
 import { WorkspaceType } from '../enums/workspace-type.enum';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
+/**
+ * Payload required to create a new workspace record.
+ */
 export class CreateWorkspaceDto {
   @ApiProperty({ example: 'Hot Desk A' })
   @IsString()
