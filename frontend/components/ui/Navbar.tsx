@@ -3,14 +3,28 @@ import { Building2, X, Menu } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
+/** Single navigation entry rendered inside the {@link Navbar}. */
 type NavItem = { label: string; href: string };
 
+/** Default marketing navigation items for the landing-page navbar. */
 const NAV_ITEMS: NavItem[] = [
   { label: "Features", href: "#features" },
   { label: "How it works", href: "#how-it-works" },
 ];
 
-export function Navbar({ items = NAV_ITEMS }: { items?: NavItem[] }) {
+/** Props for the {@link Navbar} component. */
+interface NavbarProps {
+  /** Navigation entries to render; defaults to {@link NAV_ITEMS}. */
+  items?: NavItem[];
+}
+
+/**
+ * Responsive site navbar with a logo, navigation links, and a mobile menu toggle.
+ *
+ * Renders a desktop inline layout on medium-and-up screens and a dropdown menu
+ * below that breakpoint.
+ */
+export function Navbar({ items = NAV_ITEMS }: NavbarProps) {
   const [open, setOpen] = useState(false);
 
   return (
