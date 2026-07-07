@@ -1,5 +1,11 @@
 import Link from "next/link";
 
+/**
+ * Top-of-page hero section for the marketing landing page.
+ *
+ * Renders a headline, call-to-action buttons, and a stylized dashboard mockup
+ * on desktop-sized viewports.
+ */
 export function Hero() {
   return (
     <section className="relative min-h-[90vh] flex items-center bg-[#faf9f7] px-6 pt-28 pb-20 overflow-hidden grain">
