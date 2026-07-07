@@ -4,6 +4,12 @@ import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { apiClient } from "@/lib/apiClient";
 
+/**
+ * Marketing landing page newsletter sign-up form.
+ *
+ * Validates the email locally, posts to `/newsletter/subscribe`, and surfaces
+ * the resulting success or error message inline below the form.
+ */
 export default function Newsletter() {
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>("");
