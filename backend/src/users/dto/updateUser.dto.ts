@@ -9,6 +9,12 @@ import {
 } from 'class-validator';
 import { UserRole } from '../enums/userRoles.enum';
 
+/**
+ * Payload for partially updating an existing user record.
+ *
+ * All profile, password, role, verification, and password-reset fields are
+ * optional and only the supplied ones are updated.
+ */
 export class UpdateUserDto {
   @IsOptional()
   @IsString()
