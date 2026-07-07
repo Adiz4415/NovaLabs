@@ -3,6 +3,11 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
+/**
+ * Floating button that toggles between light and dark themes via `next-themes`.
+ *
+ * Returns nothing until mounted on the client to avoid hydration mismatches.
+ */
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
