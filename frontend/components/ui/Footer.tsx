@@ -1,6 +1,10 @@
 import { Building2 } from "lucide-react";
 import Link from "next/link";
 
+/**
+ * Site-wide footer for marketing pages, displaying branding, product links, and
+ * legal links with the current copyright year.
+ */
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
