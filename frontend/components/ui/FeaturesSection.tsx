@@ -1,4 +1,14 @@
-const features = [
+/** Feature item rendered inside the {@link FeaturesSection} bento grid. */
+type Feature = {
+  emoji: string;
+  title: string;
+  desc: string;
+  accent: string;
+  area: "a" | "b" | "d" | "e" | "c" | "f";
+};
+
+/** Static list of platform features shown in the marketing landing page. */
+const features: Feature[] = [
   {
     emoji: "👥",
     title: "Team management",
@@ -43,6 +53,11 @@ const features = [
   },
 ];
 
+/**
+ * Marketing landing page section that displays platform features in a bento grid.
+ *
+ * Falls back to a stacked layout on small screens via injected CSS.
+ */
 const FeaturesSection = () => {
   return (
     <section id="features" className="relative px-6 py-28 bg-[#faf9f7] grain">
