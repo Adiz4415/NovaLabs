@@ -2,8 +2,14 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+/** Props accepted by the {@link Checkbox} component. */
 interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
+/**
+ * Themed checkbox input built on top of a native `<input type="checkbox">` element.
+ *
+ * Forwarded refs point to the underlying HTML input element.
+ */
 const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
   ({ className, ...props }, ref) => (
     <input
