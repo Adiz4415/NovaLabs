@@ -171,11 +171,15 @@ export class AuthService {
     await this.userRepository.save(user);
 
     const tokens = this.jwtHelper.generateTokens(user);
+    await this.refreshTokenRepositoryOperations.saveRefreshToken(
+      user,
+      tokens.refreshToken,
+    );
 
     return {
       message: UserMessages.VERIFY_OTP_SUCCESS,
       user: this.userHelper.formatUserResponse(user),
-      tokens: tokens,
+      tokens,
     };
   }
 
