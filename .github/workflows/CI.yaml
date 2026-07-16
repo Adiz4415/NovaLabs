@@ -99,6 +99,25 @@ jobs:
         run: cargo build --all --verbose
 
   # ─────────────────────────────────────────────
+  # SEMGREP — Reentrancy guard enforcement
+  # ─────────────────────────────────────────────
+  semgrep:
+    name: Semgrep (Reentrancy Guard)
+    runs-on: ubuntu-latest
+    container:
+      image: returntocorp/semgrep
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run semgrep reentrancy rules
+        # Fails the build (exit code 1) if any token transfer lacks a
+        # reentrancy guard. `--error` makes semgrep return non-zero on findings.
+        run: semgrep scan --config .semgrep/reentrancy.yml --error --quiet
+        env:
+          SEMGREP_RULES: .semgrep/reentrancy.yml
+          SEMGREP_APP_TOKEN: ""
+          SEMGREP_REPO_NAME: novalabs
+
+  # ─────────────────────────────────────────────
   # BACKEND — NestJS
   # ─────────────────────────────────────────────
   backend:
