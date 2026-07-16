@@ -24,15 +24,20 @@ rules:
       `guards::reentrancy_protect(&env, &...)` to prevent reentrancy. See
       contracts/*/src/guards.rs.
     patterns:
-      - pattern: token::Client::new(...).transfer(...)
-      - pattern-not-inside: guards::reentrancy_protect(...)
+      - pattern: |
+          token::Client::new($ENV, $TOKEN).transfer(...)
+      # The transfer must be guarded. We flag it as a violation if a guard
+      # acquisition is NOT present anywhere in the enclosing function body.
+      - pattern-not-inside: |
+          fn $F(...) {
+            ...
+            let _guard = guards::reentrancy_protect(...)
+            ...
+          }
     paths:
       include:
         - contracts/workspace_booking/src/lib.rs
         - contracts/payment_escrow/src/lib.rs
-      exclude:
-        - contracts/*/src/test.rs
-        - contracts/*/src/reentrancy.rs
 
   - id: soroban-raw-invoke-without-reentrancy-guard
     severity: ERROR
@@ -42,15 +47,15 @@ rules:
       explicit reentrancy guard. Acquire `guards::reentrancy_protect` before
       any cross-contract call.
     patterns:
-      - pattern: $ENV.invoke_contract(...)
-      - pattern-not-inside: guards::reentrancy_protect(...)
+      - pattern: |
+          $ENV.invoke_contract(...)
+      - pattern-not-inside: |
+          fn $F(...) {
+            ...
+            let _guard = guards::reentrancy_protect(...)
+            ...
+          }
     paths:
       include:
         - contracts/workspace_booking/src/lib.rs
         - contracts/payment_escrow/src/lib.rs
-      exclude:
-        - contracts/*/src/test.rs
-        - contracts/*/src/reentrancy.rs
-
-
-
