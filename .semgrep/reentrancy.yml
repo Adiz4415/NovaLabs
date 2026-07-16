@@ -1,14 +1,24 @@
 # Reentrancy guard enforcement for Soroban contracts.
 #
-# Rule: every `token::Client ... .transfer(...)` call inside a contract entry
-# point MUST be preceded (in the same function body) by a call to the
-# reentrancy guard `guards::reentrancy_protect(...)`. A transfer without a
-# preceding guard acquisition is flagged as a reentrancy risk.
+# Rule: every `token::Client ... .transfer(...)` call inside the target contract
+# entry points (workspace_booking, payment_escrow) MUST be preceded (in the same
+# function body) by a call to the reentrancy guard
+# `guards::reentrancy_protect(...)`. A transfer without a preceding guard
+# acquisition is flagged as a reentrancy risk.
 #
-# This is a best-effort static heuristic: it matches the transfer call site and
-# checks that a guard acquisition textually appears earlier in the file/function
-# scope. The runtime `reentrancy.rs` fuzz + unit tests provide the authoritative
-# guarantee; this rule prevents regressions in code review.
+# Scope is intentionally limited to the two contracts called out in issue #64.
+# Test harness files (reentrancy.rs / test.rs) are excluded because they
+# deliberately exercise unguarded transfers to prove the guard works.
+#
+# This is a best-effort static heuristic; the runtime `reentrancy.rs` fuzz +
+# unit tests provide the authoritative guarantee. This rule only prevents
+# regressions in code review.
+
+paths:
+  # Only enforce on the two contracts named in the issue.
+  include:
+    - contracts/workspace_booking/src/lib.rs
+    - contracts/payment_escrow/src/lib.rs
 
 rules:
   - id: soroban-transfer-without-reentrancy-guard
