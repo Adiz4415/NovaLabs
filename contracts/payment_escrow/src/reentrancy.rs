@@ -1,5 +1,4 @@
 // contracts/payment_escrow/src/reentrancy.rs
-#![cfg(test)]
 
 //! Reentrancy harness for `payment_escrow`.
 //!

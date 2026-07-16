@@ -1,5 +1,4 @@
 // contracts/workspace_booking/src/reentrancy.rs
-#![cfg(test)]
 
 //! Reentrancy harness for `workspace_booking`.
 //!
