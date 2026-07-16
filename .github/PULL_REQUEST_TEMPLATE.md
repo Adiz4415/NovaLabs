@@ -1,55 +1,36 @@
-<!-- Please fill out the sections below. This template helps reviewers understand the "why" and the testing performed. -->
-
-## Linked Issue
-- Closes: #152 (link the issue this PR closes)
-
 ## Description
-A short description of the change and why it was made.
 
-## Type of change
-- [ ] Feature (non-breaking change which adds functionality)
-- [ ] Bugfix (non-breaking change which fixes an issue)
-- [ ] Documentation
-- [ ] CI/CD / Chore (build/test tooling, maintenance)
-- [ ] Tests (adds or updates tests)
+<!-- Briefly describe the purpose of this PR -->
 
-## Test Plan
-- How was this change tested? Unit tests, manual steps, or integration tests.
-- Commands to run locally to verify the change:
+Closes #<!-- issue number -->
 
-```bash
-npm ci
-npm test
-```
+## Change type
 
-## Screenshots (if applicable)
-- Add before/after screenshots for UI changes.
+<!-- Mark the relevant option with an x -->
 
-## Breaking Changes
-- Does this change introduce breaking behavior for any public API or `/api/` endpoints? If yes, describe the breaking change and the migration steps.
-- If this PR touches `/api/` files and **no** breaking changes are declared above, CI will fail the PR checks — add a description or add `BREAKING CHANGE:` to the top of the PR body.
+- [ ] feat: new feature
+- [ ] fix: bug fix
+- [ ] docs: documentation only
+- [ ] style: formatting, code style
+- [ ] refactor: code restructuring
+- [ ] test: adding or updating tests
+- [ ] chore: build, CI, tooling
 
-## Checklist
-- [ ] Linked an existing issue in the description
-- [ ] Used conventional commit-style title (type(scope): short description)
-- [ ] Lint passes (`npm run lint`)
-- [ ] Tests pass (`npm test`)
-- [ ] No new warnings
-- [ ] Documentation updated if needed
-- [ ] CI passes
+## Test plan
 
-If the change is non-trivial, add a small explanation for reviewers explaining the design choices and alternatives considered.
-## Description
-<!-- Describe your changes -->
+<!-- How did you verify this change? -->
 
-## Type of change
-- [ ] Bug fix
-- [ ] New feature
-- [ ] Documentation
-- [ ] CI/CD
+- [ ] Unit tests added/updated
+- [ ] Integration tests pass
+- [ ] Manual testing performed
 
-## Checklist
-- [ ] Lint passes (`npm run lint`)
-- [ ] Tests pass (`npm test`)
-- [ ] No new warnings
-- [ ] Documentation updated if needed
+## Screenshots
+
+<!-- If applicable, add screenshots to help explain your change -->
+
+## Breaking changes
+
+<!-- If this PR touches /api/, describe any breaking changes here -->
+
+- [ ] No breaking changes
+- [ ] Breaking changes (describe):
