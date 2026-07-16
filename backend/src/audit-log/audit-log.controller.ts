@@ -12,12 +12,12 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { AuditLogService } from '../providers/audit-log.service';
-import { AuditLogFilterDto } from '../dto/audit-log-filter.dto';
-import { GetCurrentUser } from '../../auth/decorators/getCurrentUser.decorator';
-import { Roles } from '../../auth/decorators/roles.decorators';
-import { RolesGuard } from '../../auth/guard/roles.guard';
-import { UserRole } from '../../users/enums/userRoles.enum';
+import { UserRole } from 'src/users/enums/userRoles.enum';
+import { RolesGuard } from 'src/auth/guard/roles.guard';
+import { AuditLogService } from './providers/audit-log.service';
+import { Roles } from 'src/auth/decorators/roles.decorators';
+import { AuditLogFilterDto } from './dto/audit-log-filter.dto';
+import { GetCurrentUser } from 'src/auth/decorators/getCurrentUser.decorator';
 
 @ApiTags('AuditLog')
 @ApiBearerAuth()
