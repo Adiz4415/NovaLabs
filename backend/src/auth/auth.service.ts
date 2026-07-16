@@ -259,8 +259,59 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException(UserMessages.INVALID_REFRESH_TOKEN);
     }
-    const accessToken = this.jwtHelper.generateAccessToken(user);
-    return { accessToken };
+
+    const storedToken = await this.refreshTokenRepositoryOperations.findByToken(
+      refreshToken,
+    );
+
+    if (!storedToken) {
+      throw new UnauthorizedException(UserMessages.INVALID_REFRESH_TOKEN);
+    }
+
+    if (storedToken.revoked || storedToken.consumedAt) {
+      await this.refreshTokenRepositoryOperations.revokeFamily(
+        storedToken.familyId,
+      );
+      await this.auditLogService.create({
+        actorId: user.id,
+        actorEmail: user.email,
+        actorRole: user.role,
+        action: AuditAction.REFRESH_FAMILY_REVOKED,
+        targetType: 'refresh_token_family',
+        targetId: storedToken.familyId,
+        ipAddress: null,
+        userAgent: null,
+        metadata: {
+          reason: 'refresh_token_reuse_detected',
+          revokedTokenId: storedToken.id,
+        },
+      });
+      this.emailService
+        .sendRefreshTokenFamilyRevokedEmail(user.email, user.fullName)
+        .catch((err) =>
+          console.error('Failed to send family revoked email:', err.message),
+        );
+      throw new UnauthorizedException(UserMessages.INVALID_REFRESH_TOKEN);
+    }
+
+    if (
+      storedToken.expiresAt &&
+      storedToken.expiresAt.getTime() < Date.now()
+    ) {
+      throw new UnauthorizedException(UserMessages.INVALID_REFRESH_TOKEN);
+    }
+
+    await this.refreshTokenRepositoryOperations.markTokenConsumed(storedToken);
+
+    const tokens = this.jwtHelper.generateTokens(user);
+    await this.refreshTokenRepositoryOperations.createRefreshToken(
+      user,
+      tokens.refreshToken,
+      storedToken.familyId,
+      storedToken.version + 1,
+    );
+
+    return { accessToken: tokens.accessToken, refreshToken: tokens.refreshToken };
   }
   async retrieveUserById(userId: string) {
     const user = await this.userRepository.findOne({
