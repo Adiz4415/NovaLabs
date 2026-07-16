@@ -109,8 +109,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run semgrep reentrancy rules
-        # Fails the build if any token transfer lacks a reentrancy guard.
-        run: semgrep ci --config .semgrep/reentrancy.yml --error
+        # Fails the build (exit code 1) if any token transfer lacks a
+        # reentrancy guard. `--error` makes semgrep return non-zero on findings.
+        run: semgrep scan --config .semgrep/reentrancy.yml --error --quiet
         env:
           SEMGREP_RULES: .semgrep/reentrancy.yml
           SEMGREP_APP_TOKEN: ""
