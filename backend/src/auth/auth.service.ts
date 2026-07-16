@@ -28,6 +28,10 @@ import { Setup2faDto } from './dto/setup-2fa.dto';
 import { VerifyTotpDto } from './dto/verify-totp.dto';
 import { UseBackupCodeDto } from './dto/use-backup-code.dto';
 import { Disable2faDto } from './dto/disable-2fa.dto';
+import { RefreshTokenRepositoryOperations } from './providers/refreshToken.repository';
+import { RefreshToken } from './entities/refreshToken.entity';
+import { AuditLogService } from '../audit-log/providers/audit-log.service';
+import { AuditAction } from '../audit-log/entities/audit-log.entity';
 
 @Injectable()
 export class AuthService {
@@ -40,6 +44,8 @@ export class AuthService {
     private readonly setupTotpProvider: SetupTotpProvider,
     private readonly verifyTotpProvider: VerifyTotpProvider,
     private readonly manageTotpProvider: ManageTotpProvider,
+    private readonly refreshTokenRepositoryOperations: RefreshTokenRepositoryOperations,
+    private readonly auditLogService: AuditLogService,
   ) {}
 
   /**
@@ -231,10 +237,14 @@ export class AuthService {
       return { requiresTwoFactor: true, tempToken };
     }
 
-    const { accessToken } = this.jwtHelper.generateTokens(user);
+    const tokens = this.jwtHelper.generateTokens(user);
+    await this.refreshTokenRepositoryOperations.saveRefreshToken(
+      user,
+      tokens.refreshToken,
+    );
     return {
       user: this.userHelper.formatUserResponse(user),
-      accessToken,
+      ...tokens,
     };
   }
   async refreshToken(refreshToken: string) {
