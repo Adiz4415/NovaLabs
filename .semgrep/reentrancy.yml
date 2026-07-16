@@ -1,0 +1,55 @@
+# Reentrancy guard enforcement for Soroban contracts.
+#
+# Rule: every `token::Client ... .transfer(...)` call inside a contract entry
+# point MUST be preceded (in the same function body) by a call to the
+# reentrancy guard `guards::reentrancy_protect(...)`. A transfer without a
+# preceding guard acquisition is flagged as a reentrancy risk.
+#
+# This is a best-effort static heuristic: it matches the transfer call site and
+# checks that a guard acquisition textually appears earlier in the file/function
+# scope. The runtime `reentrancy.rs` fuzz + unit tests provide the authoritative
+# guarantee; this rule prevents regressions in code review.
+
+rules:
+  - id: soroban-transfer-without-reentrancy-guard
+    severity: ERROR
+    languages: [rust]
+    message: >
+      Token transfer detected without an explicit reentrancy guard. Every
+      cross-contract token transfer in a Soroban contract MUST be preceded by
+      `guards::reentrancy_protect(&env, &...)` to prevent reentrancy. See
+      contracts/*/src/guards.rs.
+    patterns:
+      - pattern: |
+          token::Client::new($ENV, $TOKEN).transfer(...)
+      # The transfer must be guarded. We flag it as a violation if a guard
+      # acquisition is NOT present anywhere in the enclosing function body.
+      - pattern-not-inside: |
+          fn $F(...) {
+            ...
+            guards::reentrancy_protect(...)...;
+            ...
+          }
+      - pattern-not-inside: |
+          fn $F(...) {
+            ...
+            reentrancy_protect(...)...;
+            ...
+          }
+
+  - id: soroban-raw-invoke-without-reentrancy-guard
+    severity: ERROR
+    languages: [rust]
+    message: >
+      Cross-contract interaction via `env.invoke_contract` detected without an
+      explicit reentrancy guard. Acquire `guards::reentrancy_protect` before
+      any cross-contract call.
+    patterns:
+      - pattern: |
+          $ENV.invoke_contract(...)
+      - pattern-not-inside: |
+          fn $F(...) {
+            ...
+            guards::reentrancy_protect(...)...;
+            ...
+          }

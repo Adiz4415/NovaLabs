@@ -15,9 +15,7 @@
 //! call is always contained by the guard.
 
 use super::*;
-use soroban_sdk::{
-    contract, contractimpl, testutils::Address as _, Address, Env, String, Symbol,
-};
+use soroban_sdk::{contract, contractimpl, testutils::Address as _, Address, Env, String, Symbol};
 
 // ── Malicious reentrant token ────────────────────────────────────────────────
 
@@ -98,25 +96,42 @@ impl MaliciousToken {
             env.storage()
                 .instance()
                 .set(&Symbol::new(&env, "done"), &true);
-            let victim: Address = env.storage().instance().get(&Symbol::new(&env, "victim")).unwrap();
-            let escrow_id: String = env.storage().instance().get(&Symbol::new(&env, "esc")).unwrap();
-            let caller: Address = env.storage().instance().get(&Symbol::new(&env, "caller")).unwrap();
-            let depositor: Address = env.storage().instance().get(&Symbol::new(&env, "dep")).unwrap();
-            let beneficiary: Address =
-                env.storage().instance().get(&Symbol::new(&env, "ben")).unwrap();
-            let mode: u32 = env.storage().instance().get(&Symbol::new(&env, "mode")).unwrap();
+            let victim: Address = env
+                .storage()
+                .instance()
+                .get(&Symbol::new(&env, "victim"))
+                .unwrap();
+            let escrow_id: String = env
+                .storage()
+                .instance()
+                .get(&Symbol::new(&env, "esc"))
+                .unwrap();
+            let caller: Address = env
+                .storage()
+                .instance()
+                .get(&Symbol::new(&env, "caller"))
+                .unwrap();
+            let depositor: Address = env
+                .storage()
+                .instance()
+                .get(&Symbol::new(&env, "dep"))
+                .unwrap();
+            let beneficiary: Address = env
+                .storage()
+                .instance()
+                .get(&Symbol::new(&env, "ben"))
+                .unwrap();
+            let mode: u32 = env
+                .storage()
+                .instance()
+                .get(&Symbol::new(&env, "mode"))
+                .unwrap();
 
             let client = PaymentEscrowContractClient::new(&env, &victim);
             let result = match mode {
-                m if m == ReentryMode::Release as u32 => {
-                    client.try_release(&caller, &escrow_id)
-                }
-                m if m == ReentryMode::Refund as u32 => {
-                    client.try_refund(&caller, &escrow_id)
-                }
-                m if m == ReentryMode::Claim as u32 => {
-                    client.try_claim(&beneficiary, &escrow_id)
-                }
+                m if m == ReentryMode::Release as u32 => client.try_release(&caller, &escrow_id),
+                m if m == ReentryMode::Refund as u32 => client.try_refund(&caller, &escrow_id),
+                m if m == ReentryMode::Claim as u32 => client.try_claim(&beneficiary, &escrow_id),
                 m if m == ReentryMode::ResolveRelease as u32 => {
                     client.try_resolve_dispute(&caller, &escrow_id, &true)
                 }
@@ -216,7 +231,6 @@ pub fn fuzz_escrow(seed: u64, iterations: u32) -> bool {
     let env = Env::default();
     env.mock_all_auths();
     let (contract, admin, beneficiary, depositor, escrow_id) = setup(&env);
-    let token = env.register(MaliciousToken, ());
     let client = PaymentEscrowContractClient::new(&env, &contract);
 
     let mut prng = Prng::new(seed);
@@ -226,6 +240,9 @@ pub fn fuzz_escrow(seed: u64, iterations: u32) -> bool {
         let mode = prng.below(max_mode);
         let arm_reentry = prng.below(2) == 1;
 
+        // Re-register a fresh malicious token each iteration so its "done"
+        // re-entry latch starts clean; configure the re-entry target.
+        let token = env.register(MaliciousToken, ());
         MaliciousTokenClient::new(&env, &token).init(
             &contract,
             &escrow_id,
@@ -234,9 +251,6 @@ pub fn fuzz_escrow(seed: u64, iterations: u32) -> bool {
             &beneficiary,
             &mode,
         );
-
-        // Re-arm the "done" flag for a fresh re-entry attempt.
-        env.storage().instance().remove(&Symbol::new(&env, "done"));
 
         // Randomly pick which guarded function the OUTER call invokes.
         let outer = prng.below(max_mode);
@@ -283,8 +297,7 @@ fn test_guard_blocks_reentrant_release() {
     env.mock_all_auths();
     let (contract, admin, _beneficiary, _depositor, escrow_id) = setup(&env);
 
-    let res = PaymentEscrowContractClient::new(&env, &contract)
-        .try_release(&admin, &escrow_id);
+    let res = PaymentEscrowContractClient::new(&env, &contract).try_release(&admin, &escrow_id);
     assert!(
         res.is_ok(),
         "outer release must complete; re-entrancy is contained internally"
@@ -292,8 +305,7 @@ fn test_guard_blocks_reentrant_release() {
 
     // A second release must fail with a business error, NOT ReentrancyLock —
     // confirming the lock was released after the first frame.
-    let res2 = PaymentEscrowContractClient::new(&env, &contract)
-        .try_release(&admin, &escrow_id);
+    let res2 = PaymentEscrowContractClient::new(&env, &contract).try_release(&admin, &escrow_id);
     assert!(
         res2.is_err(),
         "already-released escrow must reject a second release"
