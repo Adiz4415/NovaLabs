@@ -14,6 +14,7 @@ export enum AuditAction {
   LOGOUT = 'logout',
   IMPERSONATE = 'impersonate',
   CANCEL = 'cancel',
+  REFRESH_FAMILY_REVOKED = 'auth.refresh.family.revoked',
 }
 
 @Entity('audit_log')
