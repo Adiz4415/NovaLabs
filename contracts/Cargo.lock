@@ -848,7 +848,6 @@ dependencies = [
 name = "membership_token"
 version = "1.0.0"
 dependencies = [
- "access_control",
  "soroban-sdk",
 ]
 
