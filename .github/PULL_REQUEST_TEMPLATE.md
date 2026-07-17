@@ -3,15 +3,15 @@
 ## Linked Issue
 - Closes: #152 (link the issue this PR closes)
 
+## Description
+A short description of the change and why it was made.
+
 ## Type of change
 - [ ] Feature (non-breaking change which adds functionality)
 - [ ] Bugfix (non-breaking change which fixes an issue)
-- [ ] Docs (documentation only changes)
-- [ ] Chore (build/test tooling, maintenance)
+- [ ] Documentation
+- [ ] CI/CD / Chore (build/test tooling, maintenance)
 - [ ] Tests (adds or updates tests)
-
-## Description
-A short description of the change and why it was made.
 
 ## Test Plan
 - How was this change tested? Unit tests, manual steps, or integration tests.
@@ -32,8 +32,10 @@ npm test
 ## Checklist
 - [ ] Linked an existing issue in the description
 - [ ] Used conventional commit-style title (type(scope): short description)
-- [ ] Tests added / updated where applicable
-- [ ] Documentation updated where applicable
+- [ ] Lint passes (`npm run lint`)
+- [ ] Tests pass (`npm test`)
+- [ ] No new warnings
+- [ ] Documentation updated if needed
 - [ ] CI passes
 
 If the change is non-trivial, add a small explanation for reviewers explaining the design choices and alternatives considered.
