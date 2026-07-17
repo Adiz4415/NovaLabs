@@ -36,7 +36,9 @@ export class CheckInProvider {
       'rawBiometricTemplate',
       'fingerprintTemplate',
       'faceTemplate',
-    ].filter((field) => Boolean((dto as unknown as Record<string, unknown>)[field]));
+    ].filter((field) =>
+      Boolean((dto as unknown as Record<string, unknown>)[field]),
+    );
 
     if (deniedFields.length > 0) {
       throw new BadRequestException(

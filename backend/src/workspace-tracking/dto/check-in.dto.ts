@@ -17,7 +17,8 @@ export class CheckInDto {
   notes?: string;
 
   @ApiPropertyOptional({
-    description: 'Hashed biometric template value; raw biometric data is not permitted',
+    description:
+      'Hashed biometric template value; raw biometric data is not permitted',
   })
   @IsOptional()
   @IsString()
@@ -25,7 +26,8 @@ export class CheckInDto {
   biometricTemplateHash?: string;
 
   @ApiPropertyOptional({
-    description: 'Opaque reference to a biometric template stored outside the database',
+    description:
+      'Opaque reference to a biometric template stored outside the database',
   })
   @IsOptional()
   @IsString()
@@ -40,7 +42,9 @@ export class CheckInDto {
   @IsIn(['local', 'vendor'])
   biometricProcessingLocation?: 'local' | 'vendor';
 
-  @ApiPropertyOptional({ description: 'Vendor name when templates are kept outside the application' })
+  @ApiPropertyOptional({
+    description: 'Vendor name when templates are kept outside the application',
+  })
   @IsOptional()
   @IsString()
   @MaxLength(64)

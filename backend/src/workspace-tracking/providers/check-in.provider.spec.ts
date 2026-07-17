@@ -22,7 +22,10 @@ describe('CheckInProvider', () => {
   });
 
   it('rejects raw biometric payloads before any workspace log is persisted', async () => {
-    workspacesRepository.findOne.mockResolvedValue({ id: 'ws-1', isActive: true });
+    workspacesRepository.findOne.mockResolvedValue({
+      id: 'ws-1',
+      isActive: true,
+    });
     logsRepository.findOne.mockResolvedValue(null);
 
     await expect(
