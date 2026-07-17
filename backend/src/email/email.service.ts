@@ -259,10 +259,6 @@ export class EmailService {
       fullName,
       year: new Date().getFullYear(),
     });
-    return this.send(
-      email,
-      'Your Session Was Revoked — NovaLabs',
-      html,
-    );
+    return this.send(email, 'Your Session Was Revoked — NovaLabs', html);
   }
 }

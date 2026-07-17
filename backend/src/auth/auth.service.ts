@@ -260,9 +260,8 @@ export class AuthService {
       throw new UnauthorizedException(UserMessages.INVALID_REFRESH_TOKEN);
     }
 
-    const storedToken = await this.refreshTokenRepositoryOperations.findByToken(
-      refreshToken,
-    );
+    const storedToken =
+      await this.refreshTokenRepositoryOperations.findByToken(refreshToken);
 
     if (!storedToken) {
       throw new UnauthorizedException(UserMessages.INVALID_REFRESH_TOKEN);
@@ -294,10 +293,7 @@ export class AuthService {
       throw new UnauthorizedException(UserMessages.INVALID_REFRESH_TOKEN);
     }
 
-    if (
-      storedToken.expiresAt &&
-      storedToken.expiresAt.getTime() < Date.now()
-    ) {
+    if (storedToken.expiresAt && storedToken.expiresAt.getTime() < Date.now()) {
       throw new UnauthorizedException(UserMessages.INVALID_REFRESH_TOKEN);
     }
 
@@ -311,7 +307,10 @@ export class AuthService {
       storedToken.version + 1,
     );
 
-    return { accessToken: tokens.accessToken, refreshToken: tokens.refreshToken };
+    return {
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
+    };
   }
   async retrieveUserById(userId: string) {
     const user = await this.userRepository.findOne({
