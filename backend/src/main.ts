@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe, ClassSerializerInterceptor } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { HttpLogger } from './common/middlewares/httpLogger.middleware';
+import { AuditLogInterceptor } from './audit-log/interceptors/audit-log.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { rawBody: true });
@@ -21,6 +22,7 @@ async function bootstrap() {
 
   // GLOBAL SERIALIZATION
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  app.useGlobalInterceptors(app.get(AuditLogInterceptor));
 
   // ENABLE CORS
   app.enableCors({
