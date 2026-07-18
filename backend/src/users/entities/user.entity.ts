@@ -126,6 +126,18 @@ export class User {
   @Column({ type: 'jsonb', nullable: true })
   totpBackupCodes?: string[];
 
+  @Exclude()
+  @Column({ type: 'jsonb', nullable: true })
+  passkeyCredentials?: Array<{
+    id: string;
+    publicKey: string;
+    counter: number;
+    transports?: string[];
+    fmt?: string;
+    credentialDeviceType?: string;
+    credentialBackedUp?: boolean;
+  }>;
+
   @Column({
     type: 'enum',
     enum: MembershipStatus,

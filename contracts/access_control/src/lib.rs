@@ -3,6 +3,7 @@
 use soroban_sdk::{contract, contractimpl, Address, Env, String, Vec};
 
 pub mod access_control;
+pub mod access_control_interface;
 pub mod errors;
 pub mod types;
 

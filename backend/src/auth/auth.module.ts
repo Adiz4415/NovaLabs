@@ -17,6 +17,7 @@ import { RefreshToken } from './entities/refreshToken.entity';
 import { SetupTotpProvider } from './providers/setup-totp.provider';
 import { VerifyTotpProvider } from './providers/verify-totp.provider';
 import { ManageTotpProvider } from './providers/manage-totp.provider';
+import { PasskeyModule } from './passkey/passkey.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ManageTotpProvider } from './providers/manage-totp.provider';
       }),
     }),
     PassportModule,
+    PasskeyModule,
   ],
   controllers: [AuthController],
   providers: [

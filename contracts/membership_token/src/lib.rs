@@ -115,3 +115,6 @@ impl MembershipTokenContract {
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod test;
