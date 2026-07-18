@@ -1,0 +1,31 @@
+name: Security Vulnerability
+description: Report a security vulnerability (DO NOT file a public issue)
+labels: [security]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        :warning: **Do not file a public issue for security vulnerabilities.**
+        If you have a security concern, please use GitHub's private Security Advisories at:
+        https://github.com/NovaCoreLabs1/NovaLabs/security/advisories
+  - type: textarea
+    id: summary
+    attributes:
+      label: Vulnerability Summary
+      description: Briefly describe the vulnerability
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: What is the potential impact?
+    validations:
+      required: true
+  - type: input
+    id: contact
+    attributes:
+      label: Contact
+      description: How can we reach you securely?
+    validations:
+      required: false

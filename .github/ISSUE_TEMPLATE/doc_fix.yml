@@ -1,0 +1,30 @@
+name: Documentation Fix
+description: Report a typo, broken link, or documentation improvement
+labels: [docs]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve our docs!
+  - type: input
+    id: page
+    attributes:
+      label: Page / File
+      description: Which file or page needs fixing?
+      placeholder: README.md or docs/getting-started.md
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: What's Wrong?
+      description: Describe the issue — typo, broken link, unclear explanation, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested Fix
+      description: How should it be fixed?
+    validations:
+      required: false

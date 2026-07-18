@@ -1,0 +1,42 @@
+name: Contract Audit
+description: Report findings from smart contract review
+labels: [contracts, audit]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for auditing our smart contracts!
+  - type: input
+    id: contract
+    attributes:
+      label: Contract
+      description: Which contract file was reviewed?
+      placeholder: contracts/amm/src/lib.rs
+    validations:
+      required: true
+  - type: textarea
+    id: finding
+    attributes:
+      label: Finding
+      description: Describe the vulnerability or issue discovered
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - Critical
+        - High
+        - Medium
+        - Low
+        - Informational
+    validations:
+      required: true
+  - type: textarea
+    id: recommendation
+    attributes:
+      label: Recommendation
+      description: Suggested fix or mitigation
+    validations:
+      required: false
