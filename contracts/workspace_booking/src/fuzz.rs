@@ -63,7 +63,7 @@ proptest! {
         let admin = Address::generate(&env);
         let member = Address::generate(&env);
         // Ensure enough balance: worst case dur_secs=86400 → ceil(86400/3600)=24 hours
-        let max_hours = ((dur_secs as u128) + 3599) / 3600;
+        let max_hours = (dur_secs as u128).div_ceil(3600);
         let needed: i128 = (rate * max_hours) as i128;
         let token = setup_token(&env, &admin, &member, needed + 1000);
         let client = init_client(&env, &contract_id, &admin, &token);
@@ -87,10 +87,10 @@ proptest! {
 
         let booking = client.get_booking(&String::from_str(&env, "bk-001"));
         let dur_u128 = dur_secs as u128;
-        let expected_hours = (dur_u128 + 3599) / 3600; // div_ceil
+        let expected_hours = dur_u128.div_ceil(3600); // ceil(duration/3600)
         let expected_cost = rate * expected_hours;
         prop_assert_eq!(booking.amount_paid, expected_cost,
-            "amount_paid={} but expected rate={} * ceil({}/3600) = {}", 
+            "amount_paid={} but expected rate={} * ceil({}/3600) = {}",
             booking.amount_paid, rate, dur_secs, expected_cost);
     }
 
@@ -237,7 +237,7 @@ proptest! {
         client.book_workspace(&member, &String::from_str(&env, "bk-a"), &ws_id, &a_start, &a_end);
         let booking_a = client.get_booking(&String::from_str(&env, "bk-a"));
         let dur_u128 = dur_secs as u128;
-        let expected_old_cost = old_rate * ((dur_u128 + 3599) / 3600);
+        let expected_old_cost = old_rate * dur_u128.div_ceil(3600);
         prop_assert_eq!(booking_a.amount_paid, expected_old_cost);
 
         // Change rate
@@ -250,7 +250,7 @@ proptest! {
         env.mock_all_auths();
         client.book_workspace(&member, &String::from_str(&env, "bk-b"), &ws_id, &b_start, &b_end);
         let booking_b = client.get_booking(&String::from_str(&env, "bk-b"));
-        let expected_new_cost = new_rate * ((dur_u128 + 3599) / 3600);
+        let expected_new_cost = new_rate * dur_u128.div_ceil(3600);
         prop_assert_eq!(booking_b.amount_paid, expected_new_cost);
     }
 
@@ -307,8 +307,12 @@ fn test_overlapping_booking_fails_deterministic() {
     let ws_id = String::from_str(&env, "ws-overlap");
     env.mock_all_auths();
     client.register_workspace(
-        &admin, &ws_id, &String::from_str(&env, "WS"),
-        &WorkspaceType::HotDesk, &1u32, &500u128,
+        &admin,
+        &ws_id,
+        &String::from_str(&env, "WS"),
+        &WorkspaceType::HotDesk,
+        &1u32,
+        &500u128,
     );
 
     let now = env.ledger().timestamp();
@@ -316,11 +320,23 @@ fn test_overlapping_booking_fails_deterministic() {
     let end = start + 3600;
 
     env.mock_all_auths();
-    client.book_workspace(&member, &String::from_str(&env, "bk-a"), &ws_id, &start, &end);
+    client.book_workspace(
+        &member,
+        &String::from_str(&env, "bk-a"),
+        &ws_id,
+        &start,
+        &end,
+    );
 
     // Overlap: starts in the middle of first booking
     env.mock_all_auths();
-    client.book_workspace(&member, &String::from_str(&env, "bk-b"), &ws_id, &(start + 1800), &(end + 1800));
+    client.book_workspace(
+        &member,
+        &String::from_str(&env, "bk-b"),
+        &ws_id,
+        &(start + 1800),
+        &(end + 1800),
+    );
 }
 
 /// Unavailable workspace must reject new bookings.
@@ -337,8 +353,12 @@ fn test_unavailable_workspace_rejects_bookings() {
     let ws_id = String::from_str(&env, "ws-unavail");
     env.mock_all_auths();
     client.register_workspace(
-        &admin, &ws_id, &String::from_str(&env, "WS"),
-        &WorkspaceType::HotDesk, &1u32, &500u128,
+        &admin,
+        &ws_id,
+        &String::from_str(&env, "WS"),
+        &WorkspaceType::HotDesk,
+        &1u32,
+        &500u128,
     );
 
     // Mark unavailable
@@ -350,7 +370,13 @@ fn test_unavailable_workspace_rejects_bookings() {
 
     // Must panic (WorkspaceUnavailable)
     env.mock_all_auths();
-    client.book_workspace(&member, &String::from_str(&env, "bk-001"), &ws_id, &start, &end);
+    client.book_workspace(
+        &member,
+        &String::from_str(&env, "bk-001"),
+        &ws_id,
+        &start,
+        &end,
+    );
 }
 
 /// Invalid time range (start >= end) must be rejected.
@@ -367,13 +393,23 @@ fn test_invalid_time_range_rejected() {
     let ws_id = String::from_str(&env, "ws-time");
     env.mock_all_auths();
     client.register_workspace(
-        &admin, &ws_id, &String::from_str(&env, "WS"),
-        &WorkspaceType::HotDesk, &1u32, &1u128,
+        &admin,
+        &ws_id,
+        &String::from_str(&env, "WS"),
+        &WorkspaceType::HotDesk,
+        &1u32,
+        &1u128,
     );
 
     // start >= end (invalid)
     env.mock_all_auths();
-    client.book_workspace(&member, &String::from_str(&env, "bk-001"), &ws_id, &3600u64, &60u64);
+    client.book_workspace(
+        &member,
+        &String::from_str(&env, "bk-001"),
+        &ws_id,
+        &3600u64,
+        &60u64,
+    );
 }
 
 /// Zero capacity must be rejected.
@@ -389,8 +425,12 @@ fn test_zero_capacity_rejected() {
     let ws_id = String::from_str(&env, "ws-zero");
     env.mock_all_auths();
     client.register_workspace(
-        &admin, &ws_id, &String::from_str(&env, "Bad"),
-        &WorkspaceType::HotDesk, &0u32, &100u128,
+        &admin,
+        &ws_id,
+        &String::from_str(&env, "Bad"),
+        &WorkspaceType::HotDesk,
+        &0u32,
+        &100u128,
     );
 }
 
@@ -407,7 +447,11 @@ fn test_zero_rate_rejected() {
     let ws_id = String::from_str(&env, "ws-zerorate");
     env.mock_all_auths();
     client.register_workspace(
-        &admin, &ws_id, &String::from_str(&env, "Bad"),
-        &WorkspaceType::HotDesk, &1u32, &0u128,
+        &admin,
+        &ws_id,
+        &String::from_str(&env, "Bad"),
+        &WorkspaceType::HotDesk,
+        &1u32,
+        &0u128,
     );
 }

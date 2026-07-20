@@ -398,7 +398,14 @@ fn test_claim_before_release_fails() {
     let desc = String::from_str(&env, "Early claim test");
 
     env.mock_all_auths();
-    client.create_escrow(&depositor, &escrow_id, &beneficiary, &amount, &desc, &release_after);
+    client.create_escrow(
+        &depositor,
+        &escrow_id,
+        &beneficiary,
+        &amount,
+        &desc,
+        &release_after,
+    );
 
     // Must panic (ClaimTooEarly — haven't advanced time)
     env.mock_all_auths();
