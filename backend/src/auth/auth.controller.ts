@@ -132,7 +132,7 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const result = await this.authService.login(loginUserDto);
-    if (result.accessToken) {
+    if (result && 'accessToken' in result) {
       setAuthCookies(res, result.accessToken, result.refreshToken);
     }
     return result;
