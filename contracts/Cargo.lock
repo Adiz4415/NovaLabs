@@ -1777,6 +1777,7 @@ dependencies = [
 name = "workspace_booking"
 version = "0.0.0"
 dependencies = [
+ "payment_escrow",
  "soroban-sdk",
 ]
 
