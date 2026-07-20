@@ -57,7 +57,7 @@ fn booking_rate() -> impl Strategy<Value = u128> {
     prop_oneof![
         Just(1u128),
         1u128..=1_000_000u128,
-        Just(u128::MAX / 100), // safe: *100 won't overflow (max 24 hours)
+        Just(500_000_000_000u128), // large but safe: *24 = 12T, fits i128
     ]
 }
 
@@ -162,8 +162,9 @@ proptest! {
         let contract_id = setup_contract(&env);
         let admin = Address::generate(&env);
         let member = Address::generate(&env);
-        let initial_balance: i128 = (rate * 100) as i128;
-        let token = setup_token(&env, &admin, &member, initial_balance);
+        let max_hours = (dur_secs as u128).div_ceil(3600);
+        let needed: i128 = (rate * max_hours) as i128;
+        let token = setup_token(&env, &admin, &member, needed + 1000);
         let client = init_client(&env, &contract_id, &admin, &token);
 
         let ws_id = String::from_str(&env, "ws-fuzz");
@@ -183,9 +184,9 @@ proptest! {
         client.cancel_booking(&member, &String::from_str(&env, "bk-001"));
         let balance_after_cancel = TokenClient::new(&env, &token).balance(&member);
 
-        prop_assert_eq!(balance_after_cancel, initial_balance,
+        prop_assert_eq!(balance_after_cancel, needed + 1000,
             "cancel should refund full amount: initial={} after_cancel={}",
-            initial_balance, balance_after_cancel);
+            needed + 1000, balance_after_cancel);
 
         let booking = client.get_booking(&String::from_str(&env, "bk-001"));
         prop_assert_eq!(booking.status, BookingStatus::Cancelled);
@@ -238,7 +239,12 @@ proptest! {
         let contract_id = setup_contract(&env);
         let admin = Address::generate(&env);
         let member = Address::generate(&env);
-        let token = setup_token(&env, &admin, &member, 10_000_000_000i128);
+        // Compute sufficient balance for both bookings (old + new rate)
+        let max_hours = (dur_secs as u128).div_ceil(3600);
+        let cost_old: i128 = (old_rate * max_hours) as i128;
+        let cost_new: i128 = (new_rate * max_hours) as i128;
+        let total_needed: i128 = cost_old.saturating_add(cost_new);
+        let token = setup_token(&env, &admin, &member, total_needed);
         let client = init_client(&env, &contract_id, &admin, &token);
 
         let ws_id = String::from_str(&env, "ws-fuzz");
