@@ -5,8 +5,8 @@ use soroban_sdk::{
 };
 
 // Import both contracts
-use workspace_booking::{BookingStatus, WorkspaceBookingContract, WorkspaceType};
 use payment_escrow::{EscrowStatus, PaymentEscrowContract};
+use workspace_booking::{BookingStatus, WorkspaceBookingContract, WorkspaceType};
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -111,7 +111,10 @@ fn test_booking_then_escrow_release_full_lifecycle() {
 
     let escrow = escrow_client.get_escrow(&String::from_str(&env, "esc-booking-001"));
     assert_eq!(escrow.status, EscrowStatus::Released);
-    assert_eq!(TokenClient::new(&env, &token).balance(&beneficiary), 5_000i128);
+    assert_eq!(
+        TokenClient::new(&env, &token).balance(&beneficiary),
+        5_000i128
+    );
 
     // Step 4: Admin completes the booking
     advance_time(&env, 10_800); // advance past booking end
@@ -271,7 +274,10 @@ fn test_cancel_booking_then_claim_escrow() {
     // Beneficiary claims
     escrow_client.claim(&beneficiary, &String::from_str(&env, "esc-003"));
 
-    assert_eq!(TokenClient::new(&env, &token).balance(&beneficiary), 20_000i128);
+    assert_eq!(
+        TokenClient::new(&env, &token).balance(&beneficiary),
+        20_000i128
+    );
 
     let escrow = escrow_client.get_escrow(&String::from_str(&env, "esc-003"));
     assert_eq!(escrow.status, EscrowStatus::Released);
@@ -362,14 +368,27 @@ fn test_multiple_bookings_with_escrows() {
 
     // Release escrow A
     escrow_client.release(&admin, &String::from_str(&env, "esc-A"));
-    assert_eq!(escrow_client.get_escrow(&String::from_str(&env, "esc-A")).status, EscrowStatus::Released);
+    assert_eq!(
+        escrow_client
+            .get_escrow(&String::from_str(&env, "esc-A"))
+            .status,
+        EscrowStatus::Released
+    );
 
     // Refund escrow B
     escrow_client.refund(&admin, &String::from_str(&env, "esc-B"));
-    assert_eq!(escrow_client.get_escrow(&String::from_str(&env, "esc-B")).status, EscrowStatus::Refunded);
+    assert_eq!(
+        escrow_client
+            .get_escrow(&String::from_str(&env, "esc-B"))
+            .status,
+        EscrowStatus::Refunded
+    );
 
     // Beneficiary got escrow A: 3000
-    assert_eq!(TokenClient::new(&env, &token).balance(&beneficiary), 3_000i128);
+    assert_eq!(
+        TokenClient::new(&env, &token).balance(&beneficiary),
+        3_000i128
+    );
 
     // Member got escrow B refund: 187000 + 5000 = 192000
     assert_eq!(TokenClient::new(&env, &token).balance(&member), 192_000i128);
@@ -379,8 +398,18 @@ fn test_multiple_bookings_with_escrows() {
     booking_client.complete_booking(&admin, &String::from_str(&env, "bk-A"));
     booking_client.complete_booking(&admin, &String::from_str(&env, "bk-B"));
 
-    assert_eq!(booking_client.get_booking(&String::from_str(&env, "bk-A")).status, BookingStatus::Completed);
-    assert_eq!(booking_client.get_booking(&String::from_str(&env, "bk-B")).status, BookingStatus::Completed);
+    assert_eq!(
+        booking_client
+            .get_booking(&String::from_str(&env, "bk-A"))
+            .status,
+        BookingStatus::Completed
+    );
+    assert_eq!(
+        booking_client
+            .get_booking(&String::from_str(&env, "bk-B"))
+            .status,
+        BookingStatus::Completed
+    );
 }
 
 /// Admin cancel booking with escrow — partial refund scenario.
@@ -598,7 +627,10 @@ fn test_time_locked_escrow_with_booking() {
     // Beneficiary claims
     escrow_client.claim(&beneficiary, &String::from_str(&env, "esc-006"));
 
-    assert_eq!(TokenClient::new(&env, &token).balance(&beneficiary), 25_000i128);
+    assert_eq!(
+        TokenClient::new(&env, &token).balance(&beneficiary),
+        25_000i128
+    );
 
     let escrow = escrow_client.get_escrow(&String::from_str(&env, "esc-006"));
     assert_eq!(escrow.status, EscrowStatus::Released);
@@ -668,7 +700,9 @@ fn test_escrow_dispute_window_closed_after_booking() {
     // Admin can still release
     escrow_client.release(&admin, &String::from_str(&env, "esc-007"));
     assert_eq!(
-        escrow_client.get_escrow(&String::from_str(&env, "esc-007")).status,
+        escrow_client
+            .get_escrow(&String::from_str(&env, "esc-007"))
+            .status,
         EscrowStatus::Released
     );
 }
