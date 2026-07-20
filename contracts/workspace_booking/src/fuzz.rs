@@ -51,12 +51,31 @@ fn init_client<'a>(
 
 // ── Property tests: invariants that must always hold ──────────────────────────
 
+/// Strategy for booking rates: covers boundary (1), typical, and near-MAX values
+/// without overflowing `rate * max_hours` in token setup.
+fn booking_rate() -> impl Strategy<Value = u128> {
+    prop_oneof![
+        Just(1u128),
+        1u128..=1_000_000u128,
+        Just(u128::MAX / 100), // safe: *100 won't overflow (max 24 hours)
+    ]
+}
+
+/// Strategy for durations: covers boundary (1 sec), typical, and max (24h).
+fn booking_duration() -> impl Strategy<Value = u64> {
+    prop_oneof![
+        Just(1u64),
+        600u64..=86_400u64,
+        Just(86_400u64), // exactly 24h
+    ]
+}
+
 proptest! {
     /// Invariant: booking cost = hourly_rate × ceil(duration_secs / 3600)
     #[test]
     fn prop_booking_cost_calculation(
-        rate in 1u128..=1_000_000u128,
-        dur_secs in 1u64..=86_400u64,
+        rate in booking_rate(),
+        dur_secs in booking_duration(),
     ) {
         let env = Env::default();
         let contract_id = setup_contract(&env);
@@ -136,8 +155,8 @@ proptest! {
     /// Invariant: cancel always refunds the exact amount paid.
     #[test]
     fn prop_cancel_refunds_exact_amount(
-        rate in 1u128..=500_000u128,
-        dur_secs in 600u64..=86_400u64,
+        rate in booking_rate(),
+        dur_secs in booking_duration(),
     ) {
         let env = Env::default();
         let contract_id = setup_contract(&env);
@@ -211,9 +230,9 @@ proptest! {
     /// Invariant: after setting a new rate, new bookings use the new rate.
     #[test]
     fn prop_rate_update_applies_to_future_bookings(
-        old_rate in 1u128..=1_000_000u128,
-        new_rate in 1u128..=1_000_000u128,
-        dur_secs in 600u64..=3_600u64,
+        old_rate in booking_rate(),
+        new_rate in booking_rate(),
+        dur_secs in booking_duration(),
     ) {
         let env = Env::default();
         let contract_id = setup_contract(&env);

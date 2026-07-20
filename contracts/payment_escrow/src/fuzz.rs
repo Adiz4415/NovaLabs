@@ -52,11 +52,21 @@ fn init_client<'a>(
 
 // ── Property tests ────────────────────────────────────────────────────────────
 
+/// Strategy for escrow amounts: covers boundary (1), typical, and near-MAX values
+/// without overflowing `amount * 3` in token setup.
+fn escrow_amount() -> impl Strategy<Value = i128> {
+    prop_oneof![
+        Just(1i128),
+        1i128..=1_000_000i128,
+        Just(i128::MAX / 4), // safe: *4 won't overflow
+    ]
+}
+
 proptest! {
     /// Invariant: created escrow has all fields stored correctly.
     #[test]
     fn prop_create_escrow_stores_correct_fields(
-        amount in 1i128..=1_000_000i128,
+        amount in escrow_amount(),
         rel_after in prop_oneof![100u64..=86_400u64, Just(0u64)],
         dw in prop_oneof![100u64..=86_400u64, Just(0u64)],
     ) {
@@ -91,7 +101,7 @@ proptest! {
     /// Invariant: admin release transitions Pending → Released and sends funds.
     #[test]
     fn prop_admin_release_sends_funds(
-        amount in 1i128..=1_000_000i128,
+        amount in escrow_amount(),
         dw in prop_oneof![100u64..=86_400u64, Just(0u64)],
     ) {
         let env = Env::default();
@@ -157,7 +167,7 @@ proptest! {
     /// Invariant: raise_dispute within window succeeds, changes status.
     #[test]
     fn prop_raise_dispute_within_window_succeeds(
-        amount in 1i128..=1_000_000i128,
+        amount in escrow_amount(),
         window in 100u64..=86_400u64,
         offset in 0u64..=86_399u64,
     ) {
@@ -193,7 +203,7 @@ proptest! {
     /// Invariant: resolve_dispute transitions to correct destination.
     #[test]
     fn prop_resolve_dispute_transitions(
-        amount in 1i128..=1_000_000i128,
+        amount in escrow_amount(),
         release_to_beneficiary in proptest::bool::ANY,
         window in 100u64..=86_400u64,
     ) {
@@ -239,7 +249,7 @@ proptest! {
     /// Invariant: claim succeeds after release_after and sends funds.
     #[test]
     fn prop_claim_after_release_succeeds(
-        amount in 1i128..=1_000_000i128,
+        amount in escrow_amount(),
         rel_after in 100u64..=86_400u64,
         extra in 0u64..=86_400u64,
     ) {
