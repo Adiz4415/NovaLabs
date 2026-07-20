@@ -29,6 +29,7 @@ import { computeProfileCompleteness } from '../utils/profile-completeness.util';
 import { Booking } from '../../bookings/entities/booking.entity';
 import { Payment } from '../../payments/entities/payment.entity';
 import { WorkspaceLog } from '../../workspace-tracking/entities/workspace-log.entity';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const archiver = require('archiver');
 import { Readable } from 'stream';
 
