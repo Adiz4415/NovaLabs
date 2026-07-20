@@ -1,10 +1,7 @@
 // contracts/resource_credits/src/test.rs
 
 use super::*;
-use soroban_sdk::{
-    testutils::Address as _,
-    Address, Env,
-};
+use soroban_sdk::{testutils::Address as _, Address, Env};
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
