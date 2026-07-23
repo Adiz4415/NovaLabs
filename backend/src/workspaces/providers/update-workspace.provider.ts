@@ -17,8 +17,9 @@ export class UpdateWorkspaceProvider {
     const workspace = await this.findWorkspaceByIdProvider.findById(id);
 
     // If totalSeats is being increased, increase availableSeats proportionally
-    if (dto.totalSeats && dto.totalSeats > workspace.totalSeats) {
-      const added = dto.totalSeats - workspace.totalSeats;
+    const totalSeats = dto['totalSeats'];
+    if (totalSeats && totalSeats > workspace.totalSeats) {
+      const added = totalSeats - workspace.totalSeats;
       workspace.availableSeats = workspace.availableSeats + added;
     }
 
