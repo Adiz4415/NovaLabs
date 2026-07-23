@@ -7,10 +7,27 @@ import { SorobanEscrowProvider } from './soroban-escrow.provider';
 import { FakeSorobanRpcClient } from './fake-soroban-rpc.client';
 import { SOROBAN_RPC_CLIENT } from './soroban-rpc-client.interface';
 
+// NOTE: We mock @stellar/stellar-sdk entirely rather than using
+// jest.requireActual because the published v11.3.0 package is broken:
+//   - lib/rust_types.js  — missing entirely
+//   - lib/soroban.js     — empty (module.exports = {};)
+// Keypair is sourced from the separate @stellar/stellar-base package
+// which is not affected by this packaging bug.
 jest.mock('@stellar/stellar-sdk', () => {
-  const actual = jest.requireActual('@stellar/stellar-sdk');
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { Keypair } = require('@stellar/stellar-base');
   return {
-    ...actual,
+    SorobanRpc: {
+      Api: {
+        GetTransactionStatus: {
+          SUCCESS: 'SUCCESS',
+          FAILED: 'FAILED',
+          NOT_FOUND: 'NOT_FOUND',
+        },
+        isSimulationSuccess: jest.fn().mockReturnValue(true),
+      },
+    },
+    Keypair,
     TransactionBuilder: jest.fn().mockImplementation(() => ({
       addOperation: jest.fn().mockReturnThis(),
       build: jest.fn().mockReturnValue({

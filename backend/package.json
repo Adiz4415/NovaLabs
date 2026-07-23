@@ -137,7 +137,8 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "moduleNameMapper": {
-      "^src/(.*)$": "<rootDir>/$1"
+      "^src/(.*)$": "<rootDir>/$1",
+      "rust_types$": "<rootDir>/../test/__mocks__/rust_types.ts"
     },
     "collectCoverageFrom": [
       "**/*.(t|j)s"
