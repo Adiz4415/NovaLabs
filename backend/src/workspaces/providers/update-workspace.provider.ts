@@ -17,7 +17,9 @@ export class UpdateWorkspaceProvider {
     const workspace = await this.findWorkspaceByIdProvider.findById(id);
 
     // If totalSeats is being increased, increase availableSeats proportionally
-    const totalSeats = dto['totalSeats'];
+    // NOTE: bracket notation required — PartialType<CreateWorkspaceDto> doesn't
+    // expose individual property keys to TypeScript's structural type system.
+    const totalSeats: number | undefined = dto['totalSeats'];
     if (totalSeats && totalSeats > workspace.totalSeats) {
       const added = totalSeats - workspace.totalSeats;
       workspace.availableSeats = workspace.availableSeats + added;
